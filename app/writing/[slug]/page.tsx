@@ -31,7 +31,7 @@ function remarkRewriteImages(slug: string) {
 }
 
 export default async function PostPage({ params }: Props) {
-  const slug = params.slug;
+  const { slug } = (await params) as { slug: string };
   const raw = readRawPost(slug);
 
   if (!raw) {
