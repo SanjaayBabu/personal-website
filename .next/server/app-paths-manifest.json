@@ -3,6 +3,6 @@
   "/api/writing/image/route": "app/api/writing/image/route.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
-  "/writing/page": "app/writing/page.js",
-  "/writing/[slug]/page": "app/writing/[slug]/page.js"
+  "/writing/[slug]/page": "app/writing/[slug]/page.js",
+  "/writing/page": "app/writing/page.js"
 }
