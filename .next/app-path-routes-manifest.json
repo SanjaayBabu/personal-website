@@ -3,6 +3,6 @@
   "/_not-found/page": "/_not-found",
   "/api/writing/image/route": "/api/writing/image",
   "/page": "/",
-  "/writing/[slug]/page": "/writing/[slug]",
-  "/writing/page": "/writing"
+  "/writing/page": "/writing",
+  "/writing/[slug]/page": "/writing/[slug]"
 }
