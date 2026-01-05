@@ -1,30 +1,6 @@
 {
   "version": 4,
   "routes": {
-    "/writing": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/writing",
-      "dataRoute": "/writing.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/": {
       "experimentalBypassFor": [
         {
@@ -48,13 +24,37 @@
         "x-next-revalidated-tags",
         "x-next-revalidate-tag-token"
       ]
+    },
+    "/writing": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/writing",
+      "dataRoute": "/writing.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "cddd62a0f7bd1e531dddd3135aaf55c6",
-    "previewModeSigningKey": "3537caebfda962ad554cfe9bf15784c90a45cd8cdde5c6a5bd9ae033d24047a8",
-    "previewModeEncryptionKey": "b675dbf78323cfb3bfab35e4dbef973d9c2de8198ec80954daad5083f112e9e4"
+    "previewModeId": "2d5a77b87727df32df4375d5ceb1837d",
+    "previewModeSigningKey": "bdc320a4a547e86dbea007442d746bf82fc42a43d972aed1e01d76045a7fbdd3",
+    "previewModeEncryptionKey": "2c22ba5c9bd09d8e1806b49e46fb02a0e42e93086ebf27ef3c014f541632c910"
   }
 }

@@ -6,6 +6,7 @@ import { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { visit } from "unist-util-visit";
 import MDXPost from "@/components/writing/MDXPost";
 import Link from "next/link";
+import BackToHome from "@/components/writing/BackToHome";
 
 type Props = { params: { slug: string } };
 
@@ -58,9 +59,8 @@ export default async function PostPage({ params }: Props) {
     <main className="px-4 sm:px-6 lg:px-8 py-12">
       <div className="mx-auto max-w-3xl">
         <article>
-          {/* BackToHome component can stay if you already added it */}
-          {/* <BackToHome /> */}
-
+          <BackToHome />
+          
           <header className="mb-6">
             <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
               {meta.title || slug.replace(/[-_]/g, " ")}
