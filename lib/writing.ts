@@ -11,6 +11,7 @@ export type PostMeta = {
   title: string;
   date?: string;
   summary?: string;
+  tags?: string[]; // NEW: optional array of tags
 };
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "writing");
@@ -29,6 +30,16 @@ export function getPostMetaFromFile(filename: string): PostMeta {
   const raw = fs.readFileSync(filePath, "utf8");
   const parsed = matter(raw);
   const meta = parsed.data || {};
+  // Normalize tags: accept string or array; always return array or undefined
+  let tags: string[] | undefined = undefined;
+  if (meta.tags) {
+    if (Array.isArray(meta.tags)) {
+      tags = meta.tags.map((t: any) => String(t).trim()).filter(Boolean);
+    } else if (typeof meta.tags === "string") {
+      // allow comma-separated string in frontmatter
+      tags = meta.tags.split(",").map((s: string) => s.trim()).filter(Boolean);
+    }
+  }
   return {
     slug: getSlugFromFilename(filename),
     title:
@@ -36,6 +47,7 @@ export function getPostMetaFromFile(filename: string): PostMeta {
       getSlugFromFilename(filename).replace(/[-_]/g, " "),
     date: meta.date,
     summary: meta.summary || meta.description || "",
+    tags,
   };
 }
 
@@ -69,12 +81,6 @@ export function readRawPost(slug: string) {
 
 /**
  * Remark plugin: rewrite relative image URLs to an image-serving API endpoint.
- * It converts image nodes like:
- *   ![alt](./images/foo.jpg)
- * into
- *   <img src="/api/writing/image?slug=<slug>&img=<encoded-path>" />
- *
- * We only rewrite non-absolute URLs (not starting with http or /).
  */
 function remarkRewriteImages(slug: string) {
   return () => (tree: any) => {
@@ -90,83 +96,11 @@ function remarkRewriteImages(slug: string) {
   };
 }
 
-// add this near the bottom of lib/writing.ts (after remarkRewriteImages)
-export async function getAllPosts() {
-  // get metas (sorted) from existing function
-  const metas = getAllPostsMeta();
-
-  const posts = await Promise.all(
-    metas.map(async (meta) => {
-      // read the raw post (returns { raw, meta, filePath } or null)
-      const rawPost = readRawPost(meta.slug);
-
-      if (!rawPost) {
-        // if the raw post is missing, just return the meta so page doesn't crash
-        return meta;
-      }
-
-      // process markdown -> html, rewriting relative image URLs using your plugin
-      const processed = await remark()
-        .use(remarkRewriteImages(meta.slug))
-        .use(html)
-        .process(rawPost.raw);
-
-      return {
-        ...meta,
-        // rendered HTML string of the post body
-        content: String(processed),
-        // file path (useful for image resolution code you mentioned)
-        filePath: rawPost.filePath,
-      };
-    })
-  );
-
-  return posts;
-}
-
-/**
- * Lightweight "MDX components" preprocessor:
- * Rewrites a few custom JSX-style tags to semantic HTML blocks so they can
- * be styled via CSS. This is intentionally simple and safe:
- *  <Callout>Some text</Callout>  -> <div class="callout">Some text</div>
- *  <Aside>...</Aside>            -> <aside class="mdx-aside">...</aside>
- *
- * The replacement is done before remark runs so remark-html will pass the
- * produced HTML through unchanged.
- *
- * You can add more tags here as needed.
- */
-function preprocessMdxLikeComponents(markdown: string) {
-  // Callout: allow attributes on opening tag (ignored for now)
-  markdown = markdown.replace(
-    /<Callout(?:\s[^>]*)?>([\s\S]*?)<\/Callout>/gi,
-    (_match, inner) => `\n\n<div class="callout">\n\n${inner.trim()}\n\n</div>\n\n`
-  );
-
-  // Aside
-  markdown = markdown.replace(
-    /<Aside(?:\s[^>]*)?>([\s\S]*?)<\/Aside>/gi,
-    (_match, inner) => `\n\n<aside class="mdx-aside">\n\n${inner.trim()}\n\n</aside>\n\n`
-  );
-
-  // Simple inline Marker for tips: <Tip>text</Tip> -> styled span
-  markdown = markdown.replace(
-    /<Tip(?:\s[^>]*)?>([\s\S]*?)<\/Tip>/gi,
-    (_match, inner) => `<span class="mdx-tip">${inner.trim()}</span>`
-  );
-
-  return markdown;
-}
-
 export async function renderMarkdownToHtml(markdown: string, slug?: string) {
-  // Run the small MDX-like preprocessing (this lets authors write <Callout>...</Callout>)
-  const preprocessed = preprocessMdxLikeComponents(markdown);
-
-  // If slug provided, install the rewrite-images plugin so relative images point to our API.
+  const preprocessed = markdown; // keep hook for future preprocessors
   const processor = slug
     ? remark().use(remarkRewriteImages(slug)).use(html)
     : remark().use(html);
-
   const result = await processor.process(preprocessed);
   return String(result);
 }
@@ -175,12 +109,22 @@ export async function getPostBySlug(slug: string) {
   const r = readRawPost(slug);
   if (!r) return null;
   const rendered = await renderMarkdownToHtml(r.raw, slug);
+  // normalize tags like getPostMetaFromFile did
+  let tags: string[] | undefined = undefined;
+  if (r.meta?.tags) {
+    if (Array.isArray(r.meta.tags)) {
+      tags = r.meta.tags.map((t: any) => String(t).trim()).filter(Boolean);
+    } else if (typeof r.meta.tags === "string") {
+      tags = r.meta.tags.split(",").map((s: string) => s.trim()).filter(Boolean);
+    }
+  }
   return {
     html: rendered,
     meta: {
       title: r.meta.title || slug.replace(/[-_]/g, " "),
       date: r.meta.date,
       summary: r.meta.summary || r.meta.description || "",
+      tags,
     },
   };
 }

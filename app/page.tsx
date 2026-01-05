@@ -6,6 +6,7 @@ import { WorkList } from "@/components/work/WorkList"
 import { WorkModal } from "@/components/work/WorkModal"
 import { ProjectsList } from "@/components/projects/ProjectsList"
 import { ProjectsItem } from "@/lib/projects"
+import React, { Suspense } from "react";
 import WritingSection from "@/components/writing/WritingSection";
 
 export default function Home() {
@@ -181,7 +182,9 @@ export default function Home() {
           ref={(el) => {sectionsRef.current[3] = el}}
           className="min-h-screen py-20 sm:py-32 opacity-0"
         >
-          <WritingSection />
+          <Suspense fallback={<div aria-hidden>Loading writing…</div>}>
+            <WritingSection />
+            </Suspense>
         </section>
 
 
@@ -201,7 +204,7 @@ export default function Home() {
                     href="mailto:babusanjaay@outlook.com"
                     className="group flex items-center gap-3 text-foreground hover:text-muted-foreground transition-colors duration-300"
                   >
-                    <span className="text-base sm:text-lg">babusanjaay@outlook.com</span>
+                    <span className="text-base sm:text-lg">babusanjaay[at]outlook[dot]com</span>
                     <svg
                       className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
                       fill="none"

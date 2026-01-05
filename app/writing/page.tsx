@@ -1,10 +1,10 @@
 // app/writing/page.tsx
 import React from "react";
-import { getAllPosts } from "@/lib/writing";
+import { getAllPostsMeta } from "@/lib/writing";
 import WritingPreview from "@/components/writing/WritingPreview";
 
 export default async function WritingIndexPage() {
-  const posts = await getAllPosts();
+  const posts = await getAllPostsMeta();
 
   return (
     <main className="max-w-3xl mx-auto py-12">

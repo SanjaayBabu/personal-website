@@ -5,25 +5,18 @@ import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { visit } from "unist-util-visit";
 import MDXPost from "@/components/writing/MDXPost";
-import BackToHome from "@/components/writing/BackToHome";
+import Link from "next/link";
 
 type Props = { params: { slug: string } };
 
-/**
- * Remark plugin that rewrites relative image URLs in MDX image nodes
- * into our image-serving endpoint: /api/writing/image?slug=...&img=...
- *
- * We intentionally only rewrite non-absolute, non-root paths.
- */
 function remarkRewriteImages(slug: string) {
   return () => (tree: any) => {
     visit(tree, "image", (node: any) => {
       const url: string = node.url || "";
       if (!url) return;
-      if (/^https?:\/\//i.test(url)) return; // external URL — leave alone
-      if (url.startsWith("/")) return; // absolute path — leave alone
-
-      const cleaned = url.replace(/^\.\//, ""); // remove leading ./
+      if (/^https?:\/\//i.test(url)) return;
+      if (url.startsWith("/")) return;
+      const cleaned = url.replace(/^\.\//, "");
       const encoded = encodeURIComponent(cleaned);
       node.url = `/api/writing/image?slug=${encodeURIComponent(slug)}&img=${encoded}`;
     });
@@ -31,7 +24,9 @@ function remarkRewriteImages(slug: string) {
 }
 
 export default async function PostPage({ params }: Props) {
+  // params can be a Promise in some Next versions — await it to be safe
   const { slug } = (await params) as { slug: string };
+
   const raw = readRawPost(slug);
 
   if (!raw) {
@@ -40,17 +35,12 @@ export default async function PostPage({ params }: Props) {
 
   const { raw: content, meta } = raw;
 
-  // Serialize the MDX on the server. We include our image-rewrite remark plugin.
-  // next-mdx-remote will produce a serializable `source` that the client MDXPost
-  // component can render with the component mappings you added.
   let mdxSource: MDXRemoteSerializeResult;
   try {
     mdxSource = await serialize(content, {
       mdxOptions: {
         remarkPlugins: [remarkRewriteImages(slug)],
-        // You can add rehype plugins here if desired later.
       },
-      // Keep frontmatter parsing off here because we already read it via gray-matter.
       parseFrontmatter: false,
     });
   } catch (err) {
@@ -58,26 +48,48 @@ export default async function PostPage({ params }: Props) {
     notFound();
   }
 
+  const tags: string[] = Array.isArray(meta?.tags)
+    ? meta.tags
+    : typeof meta?.tags === "string"
+    ? String(meta.tags).split(",").map((t: string) => t.trim()).filter(Boolean)
+    : [];
+
   return (
     <main className="px-4 sm:px-6 lg:px-8 py-12">
       <div className="mx-auto max-w-3xl">
         <article>
-          <BackToHome />
-          
-          <header className="mb-8">
+          {/* BackToHome component can stay if you already added it */}
+          {/* <BackToHome /> */}
+
+          <header className="mb-6">
             <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
               {meta.title || slug.replace(/[-_]/g, " ")}
             </h1>
             {meta.date && (
               <div className="mt-2 text-sm text-muted-foreground">{meta.date}</div>
             )}
+
+            {/* TAGS: render as pills */}
+            {tags.length > 0 && (
+              <div className="mt-4 flex flex-wrap gap-2 items-center">
+                {tags.map((t) => (
+                  <Link
+                    key={t}
+                    href={`/writing?tag=${encodeURIComponent(t)}`}
+                    className="text-sm inline-flex items-center gap-2 px-3 py-0.5 rounded-full border border-border/40 bg-card/10 hover:shadow-sm transition text-muted-foreground"
+                  >
+                    {t}
+                  </Link>
+                ))}
+              </div>
+            )}
+
             {meta.summary && (
               <p className="mt-4 text-lg text-muted-foreground">{meta.summary}</p>
             )}
           </header>
 
           <section className="prose prose-lg dark:prose-invert max-w-none">
-            {/* MDXPost is a client component that renders the serialized MDX */}
             <MDXPost source={mdxSource as any} />
           </section>
         </article>
