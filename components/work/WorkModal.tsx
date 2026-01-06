@@ -12,7 +12,6 @@ export function WorkModal({
     className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center animate-fade-in-up"
     onClick={onClose}
     >
-
       <div 
       className="bg-background max-w-2xl w-full p-8 rounded-lg space-y-6 relative"
       onClick={(e) => e.stopPropagation()}

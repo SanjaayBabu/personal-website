@@ -77,20 +77,51 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
-      <nav className="fixed left-8 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
-        <div className="flex flex-col gap-4">
-          {["intro", "work", "projects", "writing", "connect"].map((section) => (
-            <button
-              key={section}
-              onClick={() => document.getElementById(section)?.scrollIntoView({ behavior: "smooth" })}
-              className={`w-2 h-8 rounded-full transition-all duration-500 ${
-                activeSection === section ? "bg-foreground" : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
+
+{/* ---- Replace existing nav with this ---- */}
+<nav className="fixed left-6 top-1/3 z-50 hidden lg:block">
+  <ul className="flex flex-col gap-4 items-start">
+    {[
+      { id: "intro", label: "Home" },
+      { id: "work", label: "Selected work" },
+      { id: "projects", label: "Projects" },
+      { id: "writing", label: "Writing" },
+      { id: "connect", label: "Contact" },
+    ].map((item) => {
+      const isActive = activeSection === item.id
+      return (
+        <li key={item.id} className="relative group">
+          <button
+            onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" })}
+            aria-current={isActive ? "true" : undefined}
+            className="flex items-center gap-4 rounded-full px-2 py-1 hover:bg-white/80 dark:hover:bg-black/10 transition-all"
+            title={item.label}
+          >
+            {/* left dot */}
+            <span
+              className={`inline-block rounded-full transition-all ${
+                isActive ? "w-3 h-3 bg-foreground ring-2 ring-foreground/10" : "w-2 h-2 bg-muted-foreground/40"
               }`}
-              aria-label={`Navigate to ${section}`}
             />
-          ))}
-        </div>
-      </nav>
+            {/* label - visible on hover, and always visible when active */}
+
+            <span
+              className={
+                "ml-1 whitespace-nowrap text-sm font-medium transition-colors duration-200 " +
+                (isActive
+                ? "text-foreground"
+                : "text-muted-foreground/60 group-hover:text-muted-foreground")
+              }
+>
+            {item.label}
+          </span>
+          </button>
+        </li>
+      )
+    })}
+  </ul>
+</nav>
+{/* ---- end replacement ---- */}
 
       <main className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16">
         <header

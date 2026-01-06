@@ -25,7 +25,23 @@ export const workItems: WorkItem[] = [
     tags: ["Strategic Foresight", "Policy Research", "Qualitative Research"],
   },
 
-  {
+      {
+    id: "legislative-assistant",
+    period: "04/2024-05/2025",
+    role: "Legislative Assistant",
+    org: "Louis Ng Kok Kwang, Member of Parliament (Singapore)",
+    summary:
+      "Supported legislative advocacy work for a Member of Parliament in Singapore.",
+    details: [
+      "Co-drafted Animal Welfare White Paper together with key animal welfare civil society organizations, facilitating a review of the Animals and Birds Act.",
+      "Action item research for Sustainability & Decarbonization Motion, promoting greater government support for businesses seeking to decarbonize.",
+      "Drafted Parliamentary Questions to advocate for migrant workers, single parents, abuse victims and sustainability.",
+      "Attended stakeholder meetings with civil society organizations to support MP's advocacy work in Parliament.", 
+    ],
+    tags: ["Legislative Research", "Civic Engagement", "Advocacy"],
+  },
+
+    {
     id: "asia-analyst",
     period: "03/2023-04/2024",
     role: "Asia Analyst (Voluntary)",
@@ -42,12 +58,27 @@ export const workItems: WorkItem[] = [
   },
 
   {
+    id: "legal-internships",
+    period: "12/2024–02/2025",
+    role: "Legal Intern",
+    org: "Forte Law LLC; Davinder Singh Chambers",
+    summary:
+      "Two legal internships, across corporate and dispute resolution practices.",
+    details: [
+      "Conducted legal research for corporate clients, working on mergers, sale & purchase agreements, licensing agreements, and Memorandums of Understanding.",
+      "Drafted first drafts of bespoke contracts and wrote legal research memos to support senior lawyers.",
+      "Worked on family law & criminal litigation matters in a firm led by Singapore’s most well-renowned litigator, Davinder Singh S.C."
+    ],
+    tags: ["Legal Research", "Client Communication", "Business"],
+  },
+
+  {
     id: "singapore-army",
     period: "01/2023-11/2024",
     role: "Soldier (Conscription)",
     org: "Commandos, Singapore Army",
     summary:
-      "Trained in military operations from the air, sea, and land",
+      "Trained in military operations from the air, sea, and land.",
     details: [
       "Tested mental fortitute and physical endurance through grueling training exercises including X72, a 72-hour continuous training exercise",
       "Took charge of media affairs for a critical bilateral training exercise between the Singapore and Indonesian special forces",

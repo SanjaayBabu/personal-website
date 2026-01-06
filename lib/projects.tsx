@@ -1,4 +1,5 @@
 export type ProjectsItem = {
+  slug: string
   id: string
   period: string
   role: string
@@ -10,6 +11,7 @@ export type ProjectsItem = {
 
 export const ProjectsItems: ProjectsItem[] = [
   {
+    slug: "green-scorpions",
     id: "green-scorpions",
     period: "06/2024–08/2024",
     role: "Sustainability in the Singapore Army",
@@ -24,6 +26,7 @@ export const ProjectsItems: ProjectsItem[] = [
   },
 
   {
+    slug: "well-being",
     id: "well-being",
     period: "04/2024–11/2024",
     role: "Measuring Mental Well-Being in Singapore",
