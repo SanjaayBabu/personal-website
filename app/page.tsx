@@ -132,7 +132,7 @@ export default function Home() {
           <div className="grid lg:grid-cols-5 gap-12 sm:gap-16 w-full">
             <div className="lg:col-span-3 space-y-6 sm:space-y-8">
               <div className="space-y-3 sm:space-y-2">
-                <div className="text-sm text-muted-foreground font-mono tracking-wider">PORTFOLIO / 2025</div>
+                <div className="text-sm text-muted-foreground font-mono tracking-wider">PORTFOLIO / 2026</div>
                 <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight">
                   Sanjaay
                   <br />
@@ -278,7 +278,7 @@ export default function Home() {
         <footer className="py-12 sm:py-16 border-t border-border">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 sm:gap-8">
             <div className="space-y-2">
-              <div className="text-sm text-muted-foreground">© 2025 Sanjaay Babu. All rights reserved.</div>
+              <div className="text-sm text-muted-foreground">© 2026 Sanjaay Babu. All rights reserved.</div>
               <div className="text-xs text-muted-foreground">Built with v0.dev by Sanjaay Babu</div>
             </div>
 
