@@ -84,7 +84,7 @@ export default function Home() {
   <ul className="flex flex-col gap-4 items-start">
     {[
       { id: "intro", label: "Home" },
-      { id: "work", label: "Selected work" },
+      { id: "work", label: "Selected Work" },
       { id: "projects", label: "Projects" },
       { id: "education", label: "Education" },
       { id: "writing", label: "Writing" },
