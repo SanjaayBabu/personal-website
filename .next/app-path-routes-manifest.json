@@ -1,6 +1,6 @@
 {
-  "/api/writing/image/route": "/api/writing/image",
   "/api/writing/route": "/api/writing",
+  "/api/writing/image/route": "/api/writing/image",
   "/_not-found/page": "/_not-found",
   "/page": "/",
   "/writing/[slug]/page": "/writing/[slug]",

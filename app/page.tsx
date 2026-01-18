@@ -6,6 +6,7 @@ import { WorkList } from "@/components/work/WorkList"
 import { WorkModal } from "@/components/work/WorkModal"
 import { ProjectsList } from "@/components/projects/ProjectsList"
 import { ProjectsItem } from "@/lib/projects"
+import { EducationList } from "@/components/education/EducationList"
 import React, { Suspense } from "react";
 import WritingSection from "@/components/writing/WritingSection";
 
@@ -83,8 +84,9 @@ export default function Home() {
   <ul className="flex flex-col gap-4 items-start">
     {[
       { id: "intro", label: "Home" },
-      { id: "work", label: "Selected work" },
+      { id: "work", label: "Selected Work" },
       { id: "projects", label: "Projects" },
+      { id: "education", label: "Education" },
       { id: "writing", label: "Writing" },
       { id: "connect", label: "Contact" },
     ].map((item) => {
@@ -209,8 +211,16 @@ export default function Home() {
         </section>
 
         <section
-          id="writing"
+          id="education" 
           ref={(el) => {sectionsRef.current[3] = el}}
+          className="min-h-screen py-20 sm:py-32 opacity-0"
+        >
+          <EducationList onSelect={(item) => { console.log('selected', item); }} />
+        </section>
+
+        <section
+          id="writing"
+          ref={(el) => {sectionsRef.current[4] = el}}
           className="min-h-screen py-20 sm:py-32 opacity-0"
         >
           <Suspense fallback={<div aria-hidden>Loading writing…</div>}>
@@ -219,7 +229,7 @@ export default function Home() {
         </section>
 
 
-        <section id="connect" ref={(el) => {sectionsRef.current[4] = el}} className="py-20 sm:py-32 opacity-0">
+        <section id="connect" ref={(el) => {sectionsRef.current[5] = el}} className="py-20 sm:py-32 opacity-0">
           <div className="grid lg:grid-cols-2 gap-12 sm:gap-16">
             <div className="space-y-6 sm:space-y-8">
               <h2 className="text-3xl sm:text-4xl font-light">Let's Connect</h2>

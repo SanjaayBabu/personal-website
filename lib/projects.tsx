@@ -13,13 +13,14 @@ export const ProjectsItems: ProjectsItem[] = [
   {
     slug: "green-scorpions",
     id: "green-scorpions",
-    period: "06/2024–08/2024",
+    period: "06/2024–present",
     role: "Sustainability in the Singapore Army",
     org: "Singapore Armed Forces",
     summary: "Founded a project team aimed to mitigate incineration of used plastics in the Army.",
     details: [
       "Negotiated a partnership with Singaporean green startup Magorium and successfully ran a pilot to collect used plastics in a military camp for upcycling into asphalt.",
-      "Persuaded Army Leadership to take on a ground-up initiative to promote sustainability goals, despite not being directly linked to the military’s key organizational missions. ",
+      "Part of a broader effort to reduce waste incineration by 30% by 2030, by redirecting recyclable waste into recycling bins.",
+      "Used behavior science & “choice architecture” to encourage people to increase recycling bins utilization rate.",
       "Collaborating with the SAF Sustainability Office to implement this initiative nationwide.",
     ],
     tags: ["Sustainability", "Leadership", "Project Management"],
@@ -39,4 +40,20 @@ export const ProjectsItems: ProjectsItem[] = [
     ],
     tags: ["Qualitative Research", "Well-Being"],
   },
+
+  {
+    slug: "migrant-workers",
+    id: "migrant-workers",
+    period: "01/2022–08/2022",
+    role: "The Future of Migrant Worker Dormitories in 2040",
+    org: "Dormitories Association of Singapore Limited (DASL)",
+    summary: "Directed a foresight project to envision the future of migrant worker dormitories in Singapore, and proposed recommendations to key stakeholders.",
+    details: [
+      "Conceptualized and directed a Futures Thinking study that investigated how migrant worker dormitories in 2040 can better meet workers’ needs.",
+      "Considered potential developments in Singapore across politics, culture, economics, immigration, and technology.",
+      "Worked with over 100 industry leaders, NGO partners and migrant workers in a Design Thinking Process to co-create solutions to problems in migrant worker dorms today.",
+      "Presented research findings and ways forward to industry leaders at a national forum in August 2022.",
+    ],
+    tags: ["Futures Thinking", "Social Justice"],  
+}
 ]
