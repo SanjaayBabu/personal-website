@@ -12,29 +12,36 @@ import remarkGfm from "remark-gfm";
 type Props = { params: { slug: string } };
 
 /**
- * Small remark plugin to rewrite image URLs to point at /content/... or CDN.
- * This mirrors the earlier plugin in your file; keep behaviour the same.
+ * remark plugin to rewrite relative image URLs to a shared images folder.
+ * This assumes images referenced in MDX with ./image.jpg should map to:
+ * /content/writing/images/image.jpg
  */
-function remarkRewriteImages(slug: string) {
+function remarkRewriteImages() {
   return () => (tree: any) => {
     visit(tree, "image", (node: any) => {
-      // node.url may already be absolute; skip if so.
       const url: string = node.url || "";
       if (!url) return;
-      // Example logic: if it's a relative path (starts with ./ or no leading slash), prefix with content path
-      // Adjust this rewrite to match your previous behaviour if you had a different approach.
-      if (!/^https?:\/\//i.test(url) && !url.startsWith("/")) {
-        node.url = `/content/writing/${slug}/${url}`; // keep consistent with your storage
-      }
+
+      // leave absolute URLs and root paths alone
+      if (/^https?:\/\//i.test(url)) return;
+      if (url.startsWith("/")) return;
+
+      // normalize ./images/image.jpg -> image.jpg
+      const cleaned = url.replace(/^\.\//, "").replace(/^images\//, "");
+
+      // rewrite to the central content images path
+      node.url = `/content/writing/images/${cleaned}`;
     });
   };
 }
 
 /**
- * Server component — reads raw MDX file, serializes it for MDXRemote,
- * and renders via MDXPost client component.
+ * Server component that serializes MDX and renders with MDXPost.
+ * Note: do NOT destructure params in the function signature (see Next warning).
  */
-export default async function PostPage({ params: { slug } }: Props) {
+export default async function PostPage(props: Props) {
+  const slug = props.params?.slug;
+
   const raw = readRawPost(slug);
 
   if (!raw) {
@@ -47,15 +54,13 @@ export default async function PostPage({ params: { slug } }: Props) {
   try {
     mdxSource = await serialize(content, {
       mdxOptions: {
-        // Use remark-gfm for GitHub Flavored Markdown (ordered lists, tables, autolinks)
-        // Keep your custom remark plugin after gfm so both work together.
-        remarkPlugins: [remarkGfm, remarkRewriteImages(slug)],
-        // IMPORTANT: do NOT add rehype-raw here — it can inject HTML nodes that next-mdx-remote may not serialize
+        // enable GitHub Flavored Markdown and rewrite images
+        remarkPlugins: [remarkGfm, remarkRewriteImages()],
+        // do NOT add rehype-raw here to avoid mdxJsxFlowElement serialization errors
       },
     });
   } catch (err) {
-    // If serialization fails, log and rethrow to get Next's error overlay in dev
-    // This helps debugging if something unexpected appears in content.
+    // show helpful console output for debugging
     // eslint-disable-next-line no-console
     console.error("MDX serialize error:", err);
     throw err;
@@ -76,7 +81,7 @@ export default async function PostPage({ params: { slug } }: Props) {
 
           <header className="mb-6">
             <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
-              {meta.title || slug.replace(/[-_]/g, " ")}
+              {meta.title || (slug ? slug.replace(/[-_]/g, " ") : "")}
             </h1>
 
             {meta.date && (

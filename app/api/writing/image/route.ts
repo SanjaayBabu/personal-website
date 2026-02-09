@@ -41,18 +41,16 @@ export async function GET(req: Request) {
     const slug = url.searchParams.get("slug");
     const imgParam = url.searchParams.get("img");
 
-    if (!slug || !imgParam) {
-      return NextResponse.json({ error: "Missing slug or img query" }, { status: 400 });
+    if (!imgParam) {
+      return NextResponse.json({ error: "Missing img query" }, { status: 400 });
     }
 
     // decode the img param (it was encoded in the rewrite step)
     const decodedImg = decodeURIComponent(imgParam);
 
-    // Candidate paths:
-    // 1) content/writing/<slug>/<decodedImg>
-    // 2) content/writing/<decodedImg>
+    // Candidate paths (slug is optional for shared image folders):
     const candidatePaths = [
-      path.join(CONTENT_DIR, slug, decodedImg),
+      ...(slug ? [path.join(CONTENT_DIR, slug, decodedImg)] : []),
       path.join(CONTENT_DIR, decodedImg),
     ];
 
