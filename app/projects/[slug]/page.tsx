@@ -1,0 +1,121 @@
+// app/projects/[slug]/page.tsx
+import { notFound } from "next/navigation";
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { serialize } from "next-mdx-remote/serialize";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
+import { visit } from "unist-util-visit";
+import MDXPost from "@/components/writing/MDXPost";
+import remarkGfm from "remark-gfm";
+import BackToProjects from "@/components/projects/BackToProjects";
+
+const CONTENT_DIR = path.join(process.cwd(), "content", "projects");
+
+type Props = { params: Promise<{ slug: string }> };
+
+function remarkRewriteProjectImages() {
+  return () => (tree: any) => {
+    visit(tree, "image", (node: any) => {
+      const url: string = node.url || "";
+      if (!url || /^https?:\/\//i.test(url) || url.startsWith("/")) return;
+      const cleaned = url.replace(/^\.\//, "").replace(/^images\//, "");
+      node.url = `/api/projects/image?img=${encodeURIComponent(cleaned)}`;
+    });
+  };
+}
+
+function readRawProject(slug: string) {
+  const candidates = [`${slug}.mdx`, `${slug}.md`];
+  for (const c of candidates) {
+    const p = path.join(CONTENT_DIR, c);
+    if (fs.existsSync(p)) {
+      const raw = fs.readFileSync(p, "utf8");
+      const parsed = matter(raw);
+      return { raw: parsed.content, meta: parsed.data || {}, filePath: p };
+    }
+  }
+  return null;
+}
+
+export async function generateStaticParams() {
+  if (!fs.existsSync(CONTENT_DIR)) return [];
+  const files = fs.readdirSync(CONTENT_DIR).filter((f) => /\.mdx?$/.test(f));
+  return files.map((f) => ({ slug: f.replace(/\.mdx?$/, "") }));
+}
+
+export default async function ProjectPage(props: Props) {
+  const { slug } = await props.params;
+  const raw = readRawProject(slug);
+
+  if (!raw) {
+    notFound();
+  }
+
+  const { raw: content, meta } = raw;
+
+  let mdxSource: MDXRemoteSerializeResult;
+  try {
+    mdxSource = await serialize(content, {
+      mdxOptions: {
+        remarkPlugins: [remarkGfm, remarkRewriteProjectImages()],
+      },
+    });
+  } catch (err) {
+    console.error("MDX serialize error for project:", err);
+    throw err;
+  }
+
+  let tags: string[] = [];
+  if (meta.tags) {
+    if (Array.isArray(meta.tags)) {
+      tags = meta.tags.map((t: any) => String(t).trim()).filter(Boolean);
+    } else if (typeof meta.tags === "string") {
+      tags = meta.tags.split(",").map((s: string) => s.trim()).filter(Boolean);
+    }
+  }
+
+  return (
+    <main className="px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto max-w-3xl">
+        <article>
+          <BackToProjects />
+
+          <header className="mb-6">
+            <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
+              {meta.role || meta.title || slug.replace(/[-_]/g, " ")}
+            </h1>
+
+            <div className="mt-2 text-sm text-muted-foreground">
+              <span>{meta.org}</span>
+              {meta.period && <span> &middot; {meta.period}</span>}
+            </div>
+
+            {meta.summary && (
+              <p className="mt-4 text-lg text-muted-foreground">{meta.summary}</p>
+            )}
+          </header>
+
+          <section className="prose prose-lg dark:prose-invert max-w-none">
+            <MDXPost source={mdxSource as any} />
+          </section>
+
+          {tags.length > 0 && (
+            <footer className="mt-8">
+              <div className="flex flex-wrap gap-2">
+                {tags.map((t: string) => (
+                  <span
+                    key={t}
+                    className="text-sm px-2 py-1 rounded border"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </footer>
+          )}
+        </article>
+      </div>
+    </main>
+  );
+}

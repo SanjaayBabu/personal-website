@@ -5,7 +5,6 @@ import { WorkItem } from "@/lib/work"
 import { WorkList } from "@/components/work/WorkList"
 import { WorkModal } from "@/components/work/WorkModal"
 import { ProjectsList } from "@/components/projects/ProjectsList"
-import { ProjectsItem } from "@/lib/projects"
 import { EducationList } from "@/components/education/EducationList"
 import React, { Suspense } from "react";
 import WritingSection from "@/components/writing/WritingSection";
@@ -207,7 +206,7 @@ export default function Home() {
           ref={(el) => {sectionsRef.current[2] = el}}
           className="min-h-screen py-20 sm:py-32 opacity-0"
         >
-          <ProjectsList onSelect={(item) => { console.log('selected', item); }} />
+          <ProjectsList />
         </section>
 
         <section

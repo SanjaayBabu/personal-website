@@ -1,24 +1,14 @@
 // components/projects/ProjectsItem.tsx
 import React from "react";
+import Link from "next/link";
 import type { ProjectsItem as ProjectType } from "@/lib/projects";
 
-export function ProjectsItem({
-  item,
-  onClick,
-}: {
-  item: ProjectType;
-  onClick: (item: ProjectType) => void;
-}) {
+export function ProjectsItem({ item }: { item: ProjectType }) {
   return (
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={() => onClick(item)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") onClick(item);
-      }}
+    <Link
+      href={`/projects/${item.slug}`}
       className="group cursor-pointer block focus:outline-none rounded-md transition-colors"
-      aria-label={`Open project ${item.role}`}
+      aria-label={`View project: ${item.role}`}
     >
       <div className="p-6 hover:bg-muted/5 transition-colors rounded-md">
         <div className="grid lg:grid-cols-12 gap-6 items-start">
@@ -71,16 +61,9 @@ export function ProjectsItem({
             {/* Micro CTA */}
             <div className="flex items-center justify-between mt-3">
               <div />
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onClick(item);
-                }}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                View details →
-              </button>
+              <span className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                View details &rarr;
+              </span>
             </div>
           </div>
 
@@ -99,7 +82,7 @@ export function ProjectsItem({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
