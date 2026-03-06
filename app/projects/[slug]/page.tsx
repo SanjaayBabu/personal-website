@@ -3,10 +3,8 @@ import { notFound } from "next/navigation";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { serialize } from "next-mdx-remote/serialize";
-import type { MDXRemoteSerializeResult } from "next-mdx-remote";
+import { MDXRemote } from "next-mdx-remote/rsc";
 import { visit } from "unist-util-visit";
-import MDXPost from "@/components/writing/MDXPost";
 import remarkGfm from "remark-gfm";
 import BackToProjects from "@/components/projects/BackToProjects";
 
@@ -15,7 +13,7 @@ const CONTENT_DIR = path.join(process.cwd(), "content", "projects");
 type Props = { params: Promise<{ slug: string }> };
 
 function remarkRewriteProjectImages() {
-  return () => (tree: any) => {
+  return (tree: any) => {
     visit(tree, "image", (node: any) => {
       const url: string = node.url || "";
       if (!url || /^https?:\/\//i.test(url) || url.startsWith("/")) return;
@@ -54,18 +52,6 @@ export default async function ProjectPage(props: Props) {
 
   const { raw: content, meta } = raw;
 
-  let mdxSource: MDXRemoteSerializeResult;
-  try {
-    mdxSource = await serialize(content, {
-      mdxOptions: {
-        remarkPlugins: [remarkGfm, remarkRewriteProjectImages()],
-      },
-    });
-  } catch (err) {
-    console.error("MDX serialize error for project:", err);
-    throw err;
-  }
-
   let tags: string[] = [];
   if (meta.tags) {
     if (Array.isArray(meta.tags)) {
@@ -97,7 +83,14 @@ export default async function ProjectPage(props: Props) {
           </header>
 
           <section className="prose prose-lg dark:prose-invert max-w-none">
-            <MDXPost source={mdxSource as any} />
+            <MDXRemote
+              source={content}
+              options={{
+                mdxOptions: {
+                  remarkPlugins: [remarkGfm, remarkRewriteProjectImages],
+                },
+              }}
+            />
           </section>
 
           {tags.length > 0 && (
