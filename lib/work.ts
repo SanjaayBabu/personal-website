@@ -10,6 +10,20 @@ export type WorkItem = {
 
 export const workItems: WorkItem[] = [
   {
+    id: "development-economics",
+    period: "02/2026–present",
+    role: "Research Assistant",
+    org: "DevLab @ Duke University",
+    summary:
+      "Working on a research project to understand the effects of environmental trade policy on agriculture-driven deforestation",
+    details: [
+      "Deforestation is normatively bad. But what do you do when people who deforest for agricultural purposes are often poor smallholders?",
+      "Analysing papers across development economics, environmental economics, and political economy to understand the effectiveness of trade policies, including the EU Deforestation Regulation, in reducing deforestation while minimizing harm to smallholders.",
+    ],
+    tags: ["Economic Development", "Quantitative Research", "Environmental Policy"],
+  },
+
+  {
     id: "strategic-foresight",
     period: "12/2024–02/2025",
     role: "Strategic Foresight Intern",
