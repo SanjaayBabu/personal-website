@@ -3,25 +3,14 @@ import { notFound } from "next/navigation";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { visit } from "unist-util-visit";
+import { remark } from "remark";
 import remarkGfm from "remark-gfm";
+import remarkHtml from "remark-html";
 import BackToProjects from "@/components/projects/BackToProjects";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "projects");
 
 type Props = { params: Promise<{ slug: string }> };
-
-function remarkRewriteProjectImages() {
-  return (tree: any) => {
-    visit(tree, "image", (node: any) => {
-      const url: string = node.url || "";
-      if (!url || /^https?:\/\//i.test(url) || url.startsWith("/")) return;
-      const cleaned = url.replace(/^\.\//, "").replace(/^images\//, "");
-      node.url = `/api/projects/image?img=${encodeURIComponent(cleaned)}`;
-    });
-  };
-}
 
 function readRawProject(slug: string) {
   const candidates = [`${slug}.mdx`, `${slug}.md`];
@@ -30,7 +19,7 @@ function readRawProject(slug: string) {
     if (fs.existsSync(p)) {
       const raw = fs.readFileSync(p, "utf8");
       const parsed = matter(raw);
-      return { raw: parsed.content, meta: parsed.data || {}, filePath: p };
+      return { raw: parsed.content, meta: parsed.data || {} };
     }
   }
   return null;
@@ -46,11 +35,15 @@ export default async function ProjectPage(props: Props) {
   const { slug } = await props.params;
   const raw = readRawProject(slug);
 
-  if (!raw) {
-    notFound();
-  }
+  if (!raw) notFound();
 
   const { raw: content, meta } = raw;
+
+  const processed = await remark()
+    .use(remarkGfm)
+    .use(remarkHtml, { sanitize: false })
+    .process(content);
+  const htmlContent = processed.toString();
 
   let tags: string[] = [];
   if (meta.tags) {
@@ -82,25 +75,16 @@ export default async function ProjectPage(props: Props) {
             )}
           </header>
 
-          <section className="prose prose-lg dark:prose-invert max-w-none">
-            <MDXRemote
-              source={content}
-              options={{
-                mdxOptions: {
-                  remarkPlugins: [remarkGfm, remarkRewriteProjectImages],
-                },
-              }}
-            />
-          </section>
+          <section
+            className="prose prose-lg dark:prose-invert max-w-none"
+            dangerouslySetInnerHTML={{ __html: htmlContent }}
+          />
 
           {tags.length > 0 && (
             <footer className="mt-8">
               <div className="flex flex-wrap gap-2">
                 {tags.map((t: string) => (
-                  <span
-                    key={t}
-                    className="text-sm px-2 py-1 rounded border"
-                  >
+                  <span key={t} className="text-sm px-2 py-1 rounded border">
                     {t}
                   </span>
                 ))}
