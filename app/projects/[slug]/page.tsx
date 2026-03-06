@@ -6,9 +6,21 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
+import { visit } from "unist-util-visit";
 import BackToProjects from "@/components/projects/BackToProjects";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "projects");
+
+function remarkRewriteProjectImages() {
+  return (tree: any) => {
+    visit(tree, "image", (node: any) => {
+      const url: string = node.url || "";
+      if (!url || /^https?:\/\//i.test(url) || url.startsWith("/")) return;
+      const cleaned = url.replace(/^\.\//, "").replace(/^images\//, "");
+      node.url = `/api/projects/image?img=${encodeURIComponent(cleaned)}`;
+    });
+  };
+}
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -41,6 +53,7 @@ export default async function ProjectPage(props: Props) {
 
   const processed = await remark()
     .use(remarkGfm)
+    .use(remarkRewriteProjectImages)
     .use(remarkHtml, { sanitize: false })
     .process(content);
   const htmlContent = processed.toString();
