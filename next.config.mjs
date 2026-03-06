@@ -16,6 +16,10 @@ const nextConfig = {
         source: "/content/writing/images/:filename",
         destination: "/api/writing/image/:filename",
       },
+      {
+        source: "/content/projects/images/:filename",
+        destination: "/api/projects/image?img=:filename",
+      },
     ];
   },
 }
