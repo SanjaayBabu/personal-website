@@ -17,7 +17,7 @@ function remarkRewriteProjectImages() {
       const url: string = node.url || "";
       if (!url || /^https?:\/\//i.test(url) || url.startsWith("/")) return;
       const cleaned = url.replace(/^\.\//, "").replace(/^images\//, "");
-      node.url = `/api/projects/image?img=${encodeURIComponent(cleaned)}`;
+      node.url = `/projects/images/${cleaned}`;
     });
   };
 }
