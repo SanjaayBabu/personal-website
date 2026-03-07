@@ -148,7 +148,9 @@ export default function Home() {
             <DrawerClose asChild key={item.id}>
               <button
                 onClick={() => {
-                  document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" })
+                  setTimeout(() => {
+                    document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" })
+                  }, 300)
                 }}
                 className={`w-full flex items-center justify-between px-4 py-4 rounded-lg text-left transition-colors duration-200 ${
                   isActive
