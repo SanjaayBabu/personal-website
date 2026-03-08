@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
+import { useTheme } from "next-themes"
 import { WorkItem } from "@/lib/work"
 import { WorkList } from "@/components/work/WorkList"
 import { WorkModal } from "@/components/work/WorkModal"
@@ -10,15 +11,11 @@ import React, { Suspense } from "react";
 import WritingSection from "@/components/writing/WritingSection";
 
 export default function Home() {
-  const [isDark, setIsDark] = useState(true)
+  const { resolvedTheme, setTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
   const [activeSection, setActiveSection] = useState("")
   const sectionsRef = useRef<(HTMLElement | null)[]>([])
   const [activeWork, setActiveWork] = useState<WorkItem | null>(null)
-
-  useEffect(() => {
-    console.log("[v0] Theme toggled to:", isDark ? "dark" : "light")
-    document.documentElement.classList.toggle("dark", isDark)
-  }, [isDark])
 
   useEffect(() => {
     console.log("[v0] Setting up intersection observer for sections")
@@ -70,10 +67,7 @@ export default function Home() {
   }, [activeWork])
 
 
-  const toggleTheme = () => {
-    console.log("[v0] Toggle theme button clicked")
-    setIsDark(!isDark)
-  }
+  const toggleTheme = () => setTheme(isDark ? "light" : "dark")
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
