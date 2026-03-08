@@ -7,20 +7,24 @@ import type { PostMeta } from "@/lib/writing";
 import { useRouter, useSearchParams } from "next/navigation";
 
 /**
- * WritingSection with URL persistence and auto-scroll-to-section behaviour.
+ * WritingSection with URL persistence, tag filtering, and pagination.
  *
  * Behaviour:
  * - Reads ?tag=... from URL and selects that tag on load.
  * - When a tag is selected, updates the URL and appends #writing so the browser
  *   will scroll to the section (only when a tag is present).
  * - Does NOT append #writing (or scroll) when no tag is selected.
+ * - Paginates posts at PAGE_SIZE per page; resets to page 1 on tag change.
  */
+
+const PAGE_SIZE = 8;
 
 export default function WritingSection() {
   const [posts, setPosts] = useState<PostMeta[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -65,10 +69,9 @@ export default function WritingSection() {
       setTimeout(() => {
         const el = document.getElementById("writing-heading");
         if (el) {
-          const yOffset = -80; // adjust this value to taste (px)
+          const yOffset = -80;
           const y =
             el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
           window.scrollTo({ top: y, behavior: "smooth" });
           (el as HTMLElement).focus?.();
         }
@@ -95,25 +98,25 @@ export default function WritingSection() {
     return posts.filter((p) => (p.tags || []).map(String).includes(selectedTag));
   }, [posts, selectedTag]);
 
+  // Reset to page 1 when tag changes
+  useEffect(() => {
+    setPage(1);
+  }, [selectedTag]);
+
+  // Pagination derived values
+  const totalPages = Math.ceil(filteredPosts.length / PAGE_SIZE);
+  const pagedPosts = filteredPosts.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
   // Update URL when tag changes (preserve current path).
-  // - When a tag is selected we push a new URL: /path?tag=foo#writing (shareable).
-  // - When clearing the tag (selectedTag === null) we keep `#writing` but
-  //   update the URL via history.replaceState to avoid scrolling to top or
-  //   creating an extra history entry.
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const pathname = window.location.pathname;
 
     if (!selectedTag) {
-      // Keep the hash so the browser does not jump to top.
       const urlWithHash = `${pathname}#writing`;
-      // Use replaceState so we don't insert another entry into history.
-      // This prevents Back from feeling noisy while also avoiding scroll.
       window.history.replaceState(null, "", urlWithHash);
     } else {
-      // Push a shareable URL for the selected tag and include the hash
-      // so opening the link in a new tab lands on the writing section.
       router.push(`${pathname}?tag=${encodeURIComponent(selectedTag)}#writing`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -164,11 +167,16 @@ export default function WritingSection() {
 
         {/* Content */}
         {loading && <div>Loading writing…</div>}
-        {!loading && !error && filteredPosts && filteredPosts.length === 0 && (
+        {!loading && !error && pagedPosts && pagedPosts.length === 0 && (
           <div>No posts found for this tag.</div>
         )}
-        {!loading && !error && filteredPosts && filteredPosts.length > 0 && (
-          <WritingList posts={filteredPosts} />
+        {!loading && !error && pagedPosts && pagedPosts.length > 0 && (
+          <WritingList
+            posts={pagedPosts}
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
         )}
       </div>
     </section>
