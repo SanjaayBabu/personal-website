@@ -1,15 +1,18 @@
 // app/writing/[slug]/page.tsx
 import { notFound } from "next/navigation";
-import { readRawPost } from "@/lib/writing";
+import { readRawPost, getAllPostsMeta } from "@/lib/writing";
 import { serialize } from "next-mdx-remote/serialize";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { visit } from "unist-util-visit";
 import MDXPost from "@/components/writing/MDXPost";
 import Link from "next/link";
 import BackToHome from "@/components/writing/BackToHome";
+import PostNav from "@/components/writing/PostNav";
+import RelatedPosts from "@/components/writing/RelatedPosts";
+import ReadingProgress from "@/components/writing/ReadingProgress";
 import remarkGfm from "remark-gfm";
 
-type Props = { params: { slug: string } };
+type Props = { params: Promise<{ slug: string }> };
 
 /**
  * remark plugin to rewrite relative image URLs to a shared images folder.
@@ -40,7 +43,7 @@ function remarkRewriteImages() {
  * Note: do NOT destructure params in the function signature (see Next warning).
  */
 export default async function PostPage(props: Props) {
-  const slug = props.params?.slug;
+  const { slug } = await props.params;
 
   const raw = readRawPost(slug);
 
@@ -73,8 +76,24 @@ export default async function PostPage(props: Props) {
         .filter(Boolean)
     : [];
 
+  // Prev / Next navigation
+  const allPosts = getAllPostsMeta(); // sorted by date desc (newest first)
+  const idx = allPosts.findIndex((p) => p.slug === slug);
+  const prevPost = idx < allPosts.length - 1 ? allPosts[idx + 1] : null; // older
+  const nextPost = idx > 0 ? allPosts[idx - 1] : null; // newer
+
+  // Related posts: share at least one tag, exclude current
+  const related = allPosts
+    .filter(
+      (p) =>
+        p.slug !== slug &&
+        tags.some((t) => (p.tags || []).includes(t))
+    )
+    .slice(0, 3);
+
   return (
     <main className="px-4 sm:px-6 lg:px-8 py-12">
+      <ReadingProgress />
       <div className="mx-auto max-w-3xl">
         <article>
           <BackToHome />
@@ -115,6 +134,10 @@ export default async function PostPage(props: Props) {
               </div>
             </footer>
           )}
+
+          <RelatedPosts posts={related} />
+
+          <PostNav prev={prevPost} next={nextPost} />
         </article>
       </div>
     </main>
