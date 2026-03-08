@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
+import { useTheme } from "next-themes"
 import { WorkItem } from "@/lib/work"
 import { WorkList } from "@/components/work/WorkList"
 import { WorkModal } from "@/components/work/WorkModal"
@@ -8,17 +9,25 @@ import { ProjectsList } from "@/components/projects/ProjectsList"
 import { EducationList } from "@/components/education/EducationList"
 import React, { Suspense } from "react";
 import WritingSection from "@/components/writing/WritingSection";
+import { Drawer, DrawerContent, DrawerTrigger, DrawerClose, DrawerTitle } from "@/components/ui/drawer"
+import { Menu } from "lucide-react"
+
+const navItems = [
+  { id: "intro", label: "Home" },
+  { id: "work", label: "Selected Work" },
+  { id: "projects", label: "Projects" },
+  { id: "education", label: "Education" },
+  { id: "writing", label: "Writing" },
+  { id: "connect", label: "Contact" },
+]
 
 export default function Home() {
-  const [isDark, setIsDark] = useState(true)
+  const { resolvedTheme, setTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
   const [activeSection, setActiveSection] = useState("")
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const sectionsRef = useRef<(HTMLElement | null)[]>([])
   const [activeWork, setActiveWork] = useState<WorkItem | null>(null)
-
-  useEffect(() => {
-    console.log("[v0] Theme toggled to:", isDark ? "dark" : "light")
-    document.documentElement.classList.toggle("dark", isDark)
-  }, [isDark])
 
   useEffect(() => {
     console.log("[v0] Setting up intersection observer for sections")
@@ -70,25 +79,15 @@ export default function Home() {
   }, [activeWork])
 
 
-  const toggleTheme = () => {
-    console.log("[v0] Toggle theme button clicked")
-    setIsDark(!isDark)
-  }
+  const toggleTheme = () => setTheme(isDark ? "light" : "dark")
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
 
-{/* ---- Replace existing nav with this ---- */}
+{/* Desktop sidebar nav */}
 <nav className="fixed left-6 top-1/3 z-50 hidden lg:block">
   <ul className="flex flex-col gap-4 items-start">
-    {[
-      { id: "intro", label: "Home" },
-      { id: "work", label: "Selected Work" },
-      { id: "projects", label: "Projects" },
-      { id: "education", label: "Education" },
-      { id: "writing", label: "Writing" },
-      { id: "connect", label: "Contact" },
-    ].map((item) => {
+    {navItems.map((item) => {
       const isActive = activeSection === item.id
       return (
         <li key={item.id} className="relative group">
@@ -98,31 +97,71 @@ export default function Home() {
             className="flex items-center gap-4 rounded-full px-2 py-1 hover:bg-white/80 dark:hover:bg-black/10 transition-all"
             title={item.label}
           >
-            {/* left dot */}
             <span
               className={`inline-block rounded-full transition-all ${
                 isActive ? "w-3 h-3 bg-foreground ring-2 ring-foreground/10" : "w-2 h-2 bg-muted-foreground/40"
               }`}
             />
-            {/* label - visible on hover, and always visible when active */}
-
             <span
               className={
                 "ml-1 whitespace-nowrap text-sm font-medium transition-colors duration-200 " +
                 (isActive
-                ? "text-foreground"
-                : "text-muted-foreground/60 group-hover:text-muted-foreground")
+                  ? "text-foreground"
+                  : "text-muted-foreground/60 group-hover:text-muted-foreground")
               }
->
-            {item.label}
-          </span>
+            >
+              {item.label}
+            </span>
           </button>
         </li>
       )
     })}
   </ul>
 </nav>
-{/* ---- end replacement ---- */}
+
+{/* Mobile floating nav pill */}
+<div className="fixed bottom-6 right-6 z-50 lg:hidden">
+  <Drawer open={mobileNavOpen} onOpenChange={setMobileNavOpen} direction="bottom">
+    <DrawerTrigger asChild>
+      <button
+        className="flex items-center gap-2 px-4 py-3 bg-background border border-border rounded-full shadow-lg hover:border-muted-foreground/50 transition-all duration-300"
+        aria-label="Open navigation"
+      >
+        <Menu className="w-4 h-4 text-muted-foreground" />
+        <span className="text-xs text-muted-foreground">
+          {navItems.find(i => i.id === activeSection)?.label ?? "Menu"}
+        </span>
+      </button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerTitle className="sr-only">Navigation</DrawerTitle>
+      <div className="px-4 pt-2 pb-8 space-y-1">
+        {navItems.map((item) => {
+          const isActive = activeSection === item.id
+          return (
+            <DrawerClose asChild key={item.id}>
+              <button
+                onClick={() => {
+                  setTimeout(() => {
+                    document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" })
+                  }, 300)
+                }}
+                className={`w-full flex items-center justify-between px-4 py-4 rounded-lg text-left transition-colors duration-200 ${
+                  isActive
+                    ? "bg-foreground text-background"
+                    : "hover:bg-muted text-foreground"
+                }`}
+              >
+                <span className="text-base font-medium">{item.label}</span>
+                {isActive && <span className="w-2 h-2 rounded-full bg-background inline-block" />}
+              </button>
+            </DrawerClose>
+          )
+        })}
+      </div>
+    </DrawerContent>
+  </Drawer>
+</div>
 
       <main className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16">
         <header
