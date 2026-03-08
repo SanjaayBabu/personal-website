@@ -1,10 +1,13 @@
 // app/writing/[slug]/page.tsx
+export const dynamic = "force-dynamic";
+
 import { notFound } from "next/navigation";
 import { readRawPost, getAllPostsMeta } from "@/lib/writing";
 import { serialize } from "next-mdx-remote/serialize";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { visit } from "unist-util-visit";
-import MDXPost from "@/components/writing/MDXPost";
+import MDXPostWrapper from "@/components/writing/MDXPostWrapper";
+import TextToSpeechPlayer from "@/components/writing/TextToSpeechPlayerWrapper";
 import Link from "next/link";
 import BackToHome from "@/components/writing/BackToHome";
 import PostNav from "@/components/writing/PostNav";
@@ -12,36 +15,52 @@ import RelatedPosts from "@/components/writing/RelatedPosts";
 import ReadingProgress from "@/components/writing/ReadingProgress";
 import remarkGfm from "remark-gfm";
 
+function stripMarkdown(text: string): string {
+  return text
+    // Remove fenced code blocks
+    .replace(/```[\s\S]*?```/g, "")
+    // Remove JSX/MDX components (self-closing and block)
+    .replace(/<[A-Z][A-Za-z]*[^>]*\/>/g, "")
+    .replace(/<[A-Z][A-Za-z]*[^>]*>[\s\S]*?<\/[A-Z][A-Za-z]*>/g, "")
+    // Remove images
+    .replace(/!\[.*?\]\(.*?\)/g, "")
+    // Remove links, keep text
+    .replace(/\[(.+?)\]\(.*?\)/g, "$1")
+    // Remove headings
+    .replace(/^#{1,6}\s+/gm, "")
+    // Remove bold/italic
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/\*(.+?)\*/g, "$1")
+    .replace(/__(.+?)__/g, "$1")
+    .replace(/_(.+?)_/g, "$1")
+    // Remove inline code
+    .replace(/`(.+?)`/g, "$1")
+    // Remove blockquotes
+    .replace(/^>\s*/gm, "")
+    // Collapse excess blank lines
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+
 type Props = { params: Promise<{ slug: string }> };
 
 /**
  * remark plugin to rewrite relative image URLs to a shared images folder.
- * This assumes images referenced in MDX with ./image.jpg should map to:
- * /content/writing/images/image.jpg
  */
 function remarkRewriteImages() {
   return () => (tree: any) => {
     visit(tree, "image", (node: any) => {
       const url: string = node.url || "";
       if (!url) return;
-
-      // leave absolute URLs and root paths alone
       if (/^https?:\/\//i.test(url)) return;
       if (url.startsWith("/")) return;
-
-      // normalize ./images/image.jpg -> image.jpg
       const cleaned = url.replace(/^\.\//, "").replace(/^images\//, "");
-
-      // rewrite to the central content images path
       node.url = `/content/writing/images/${cleaned}`;
     });
   };
 }
 
-/**
- * Server component that serializes MDX and renders with MDXPost.
- * Note: do NOT destructure params in the function signature (see Next warning).
- */
 export default async function PostPage(props: Props) {
   const { slug } = await props.params;
 
@@ -57,13 +76,10 @@ export default async function PostPage(props: Props) {
   try {
     mdxSource = await serialize(content, {
       mdxOptions: {
-        // enable GitHub Flavored Markdown and rewrite images
         remarkPlugins: [remarkGfm, remarkRewriteImages()],
-        // do NOT add rehype-raw here to avoid mdxJsxFlowElement serialization errors
       },
     });
   } catch (err) {
-    // show helpful console output for debugging
     // eslint-disable-next-line no-console
     console.error("MDX serialize error:", err);
     throw err;
@@ -115,8 +131,10 @@ export default async function PostPage(props: Props) {
             )}
           </header>
 
+          <TextToSpeechPlayer text={stripMarkdown(content)} />
+
           <section className="prose prose-lg dark:prose-invert max-w-none">
-            <MDXPost source={mdxSource as any} />
+            <MDXPostWrapper source={mdxSource as any} />
           </section>
 
           {tags.length > 0 && (
