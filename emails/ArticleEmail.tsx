@@ -110,7 +110,7 @@ export default function ArticleEmail({
           <Hr style={{ borderColor: "#e5e5e5", marginBottom: "32px" }} />
 
           {/* Article body */}
-          <Section
+          <div
             dangerouslySetInnerHTML={{ __html: articleHtml }}
             style={{
               fontSize: "16px",
