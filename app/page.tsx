@@ -23,11 +23,14 @@ const navItems = [
 
 export default function Home() {
   const { resolvedTheme, setTheme } = useTheme()
-  const isDark = resolvedTheme === "dark"
+  const [mounted, setMounted] = useState(false)
+  const isDark = mounted && resolvedTheme === "dark"
   const [activeSection, setActiveSection] = useState("")
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const sectionsRef = useRef<(HTMLElement | null)[]>([])
   const [activeWork, setActiveWork] = useState<WorkItem | null>(null)
+
+  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
     console.log("[v0] Setting up intersection observer for sections")
