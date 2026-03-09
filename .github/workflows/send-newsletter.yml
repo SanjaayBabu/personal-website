@@ -42,7 +42,7 @@ jobs:
           SLUG="${{ steps.detect.outputs.slug }}"
           echo "Sending newsletter for slug: $SLUG"
 
-          RESPONSE=$(curl -s -w "\n%{http_code}" \
+          RESPONSE=$(curl -s -L -w "\n%{http_code}" \
             -X POST \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $NEWSLETTER_SECRET" \
