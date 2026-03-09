@@ -215,8 +215,8 @@ export async function POST(req: NextRequest) {
         results.errors.push(`${contact.email}: ${msg}`);
         console.error(`Failed to send to ${contact.email}:`, err);
       }
-      // Always wait between sends — Resend rate limit is 2 req/sec
-      await sleep(700);
+      // Wait 1s between sends — keeps us at 1 req/sec, well under Resend's 2 req/sec limit
+      await sleep(1000);
     }
 
     return NextResponse.json(results);
