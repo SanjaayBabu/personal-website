@@ -1,6 +1,9 @@
 "use client"
+import { Lora } from "next/font/google"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
+
+const lora = Lora({ subsets: ["latin"], weight: ["400", "600"] })
 import { useTheme } from "next-themes"
 import { WorkItem } from "@/lib/work"
 import { WorkList } from "@/components/work/WorkList"
@@ -29,7 +32,6 @@ export default function Home() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const sectionsRef = useRef<(HTMLElement | null)[]>([])
   const [activeWork, setActiveWork] = useState<WorkItem | null>(null)
-
   useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
@@ -102,8 +104,12 @@ export default function Home() {
           >
             <span
               className={`inline-block rounded-full transition-all ${
-                isActive ? "w-3 h-3 bg-foreground ring-2 ring-foreground/10" : "w-2 h-2 bg-muted-foreground/40"
+                isActive ? "w-3 h-3 ring-2" : "w-2 h-2 bg-muted-foreground/40"
               }`}
+              style={isActive ? {
+                backgroundColor: "var(--accent-brand)",
+                boxShadow: "0 0 0 2px color-mix(in oklch, var(--accent-brand) 25%, transparent)"
+              } : {}}
             />
             <span
               className={
@@ -176,15 +182,15 @@ export default function Home() {
             <div className="lg:col-span-3 space-y-6 sm:space-y-8">
               <div className="space-y-3 sm:space-y-2">
                 <div className="text-sm text-muted-foreground font-mono tracking-wider">PORTFOLIO / 2026</div>
-                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight">
-                  Sanjaay
+                <h1 className={`${lora.className} text-5xl sm:text-6xl lg:text-7xl font-normal tracking-tight`}>
+                  <span className="text-gradient-brand">Sanjaay</span>
                   <br />
                   <span className="text-muted-foreground">Babu</span>
                 </h1>
               </div>
 
               <div className="space-y-6 max-w-md">
-                <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
+                <p className={`${lora.className} text-lg sm:text-xl text-muted-foreground leading-relaxed`}>
                   {" "}
                   Freshman @ Duke University (Class of 2029), studying
                   <span className="text-foreground"> economics</span>,<span className="text-foreground"> politics</span>
@@ -194,7 +200,7 @@ export default function Home() {
 
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "var(--accent-brand)" }}></div>
                     Available for internships
                   </div>
                   <div>United States | Singapore</div>
