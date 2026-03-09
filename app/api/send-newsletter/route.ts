@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { readRawPost, renderMarkdownToHtml } from "@/lib/writing";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://sanjaaybabu.com";
 
@@ -118,6 +117,7 @@ function buildEmailHtml(opts: {
 }
 
 export async function POST(req: NextRequest) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     // --- Auth ---
     const auth = req.headers.get("authorization") ?? "";
