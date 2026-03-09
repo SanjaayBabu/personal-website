@@ -2,6 +2,7 @@
 import React from "react";
 import { getAllPostsMeta } from "@/lib/writing";
 import WritingPreview from "@/components/writing/WritingPreview";
+import MailingListSignup from "@/components/writing/MailingListSignup";
 
 export default async function WritingIndexPage() {
   const posts = await getAllPostsMeta();
@@ -13,6 +14,9 @@ export default async function WritingIndexPage() {
         {posts.map((p) => (
           <WritingPreview key={p.slug} post={p} />
         ))}
+      </div>
+      <div className="mt-16">
+        <MailingListSignup />
       </div>
     </main>
   );
