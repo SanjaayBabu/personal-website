@@ -33,6 +33,12 @@ jobs:
             echo "No new articles detected — skipping newsletter send."
           fi
 
+      - name: Wait for Vercel deployment
+        if: steps.detect.outputs.has_new == 'true'
+        run: |
+          echo "Waiting 3 minutes for Vercel to finish deploying..."
+          sleep 180
+
       - name: Send newsletter email
         if: steps.detect.outputs.has_new == 'true'
         env:
