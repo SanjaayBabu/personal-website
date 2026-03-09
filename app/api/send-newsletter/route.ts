@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { readRawPost, renderMarkdownToHtml } from "@/lib/writing";
 
-export const runtime = "nodejs";
-
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://sanjaaybabu.com";
 
@@ -13,52 +11,6 @@ function esc(s: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
-}
-
-function sleep(ms: number) {
-  return new Promise((r) => setTimeout(r, ms));
-}
-
-function isRateLimitError(err: unknown) {
-  const msg = err instanceof Error ? err.message : String(err);
-  return msg.includes("429") || msg.toLowerCase().includes("too many requests");
-}
-
-function isSuppressionError(err: unknown) {
-  const msg = err instanceof Error ? err.message : String(err);
-  // Resend errors vary; this catches the common cases shown in logs
-  return (
-    msg.toLowerCase().includes("suppression") ||
-    msg.toLowerCase().includes("suppressed") ||
-    msg.toLowerCase().includes("blocked")
-  );
-}
-
-async function sendWithRetry(
-  resend: Resend,
-  payload: {
-    from: string;
-    to: string;
-    subject: string;
-    html: string;
-  },
-  opts: { maxAttempts: number; baseDelayMs: number }
-) {
-  let attempt = 0;
-  // Basic exponential backoff for 429s
-  while (true) {
-    attempt++;
-    try {
-      return await resend.emails.send(payload);
-    } catch (err) {
-      if (isRateLimitError(err) && attempt < opts.maxAttempts) {
-        const wait = opts.baseDelayMs * Math.pow(2, attempt - 1);
-        await sleep(wait);
-        continue;
-      }
-      throw err;
-    }
-  }
 }
 
 function buildEmailHtml(opts: {
@@ -82,6 +34,7 @@ function buildEmailHtml(opts: {
       <td align="center">
         <table width="640" cellpadding="0" cellspacing="0" border="0" style="max-width:640px;margin:48px auto;padding:0 24px;">
 
+          <!-- Header -->
           <tr>
             <td style="padding-bottom:32px;">
               <a href="${siteUrl}/writing" style="font-size:13px;color:#737373;text-decoration:none;text-transform:uppercase;letter-spacing:0.05em;">
@@ -90,6 +43,7 @@ function buildEmailHtml(opts: {
             </td>
           </tr>
 
+          <!-- Title -->
           <tr>
             <td>
               <h1 style="font-size:32px;font-weight:600;line-height:1.2;margin:0 0 8px 0;color:#0a0a0a;">
@@ -99,6 +53,7 @@ function buildEmailHtml(opts: {
           </tr>
 
           ${post.date ? `
+          <!-- Date -->
           <tr>
             <td>
               <p style="font-size:13px;color:#737373;margin:0 0 16px 0;">${esc(post.date)}</p>
@@ -106,30 +61,35 @@ function buildEmailHtml(opts: {
           </tr>` : ""}
 
           ${post.summary ? `
+          <!-- Summary -->
           <tr>
             <td>
               <p style="font-size:17px;color:#525252;line-height:1.6;margin:0 0 32px 0;">${esc(post.summary)}</p>
             </td>
           </tr>` : ""}
 
+          <!-- Divider -->
           <tr>
             <td style="padding-bottom:32px;">
               <hr style="border:none;border-top:1px solid #e5e5e5;margin:0;" />
             </td>
           </tr>
 
+          <!-- Article body -->
           <tr>
             <td style="font-size:16px;line-height:1.75;color:#0a0a0a;">
               ${articleHtml}
             </td>
           </tr>
 
+          <!-- Divider -->
           <tr>
             <td style="padding:40px 0 32px;">
               <hr style="border:none;border-top:1px solid #e5e5e5;margin:0;" />
             </td>
           </tr>
 
+          <!-- CTA -->
           <tr>
             <td align="center" style="padding-bottom:40px;">
               <a href="${esc(post.url)}" style="background-color:#0a0a0a;color:#ffffff;padding:12px 24px;border-radius:6px;font-size:14px;text-decoration:none;display:inline-block;">
@@ -138,6 +98,7 @@ function buildEmailHtml(opts: {
             </td>
           </tr>
 
+          <!-- Footer -->
           <tr>
             <td>
               <p style="font-size:12px;color:#a3a3a3;line-height:1.6;text-align:center;">
@@ -157,23 +118,19 @@ function buildEmailHtml(opts: {
 
 export async function POST(req: NextRequest) {
   const resend = new Resend(process.env.RESEND_API_KEY);
-
   try {
     // --- Auth ---
     const auth = req.headers.get("authorization") ?? "";
     const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
     if (!token || token !== process.env.NEWSLETTER_SECRET) {
-      return NextResponse.json(
-        {
-          error: "Unauthorized",
-          _debug: {
-            secretSet: !!process.env.NEWSLETTER_SECRET,
-            secretLen: process.env.NEWSLETTER_SECRET?.length ?? 0,
-            tokenLen: token.length,
-          },
+      return NextResponse.json({
+        error: "Unauthorized",
+        _debug: {
+          secretSet: !!process.env.NEWSLETTER_SECRET,
+          secretLen: process.env.NEWSLETTER_SECRET?.length ?? 0,
+          tokenLen: token.length,
         },
-        { status: 401 }
-      );
+      }, { status: 401 });
     }
 
     // --- Parse slug ---
@@ -183,20 +140,20 @@ export async function POST(req: NextRequest) {
       slug = (body.slug ?? "").trim();
       if (!slug) throw new Error("missing slug");
     } catch {
-      return NextResponse.json(
-        { error: "Missing or invalid slug" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing or invalid slug" }, { status: 400 });
     }
 
     // --- Read article ---
     const raw = readRawPost(slug);
     if (!raw) {
-      return NextResponse.json({ error: `Post not found: ${slug}` }, { status: 404 });
+      return NextResponse.json(
+        { error: `Post not found: ${slug}` },
+        { status: 404 }
+      );
     }
     const { raw: mdxContent, meta } = raw;
 
-    // --- Render MDX → HTML, make URLs absolute ---
+    // --- Render MDX → HTML, make all URLs absolute for email clients ---
     const relativeHtml = await renderMarkdownToHtml(mdxContent, slug);
     const articleHtml = relativeHtml.replace(
       /(src|href)="\//g,
@@ -204,89 +161,58 @@ export async function POST(req: NextRequest) {
     );
 
     // --- Fetch active subscribers ---
-    const audienceId = process.env.RESEND_AUDIENCE_ID;
-    if (!audienceId) {
-      return NextResponse.json({ error: "Missing RESEND_AUDIENCE_ID" }, { status: 500 });
-    }
-
-    // NOTE: contacts.list() returns { data: Contact[] } (not nested data.data)
+    const audienceId = process.env.RESEND_AUDIENCE_ID!;
     const contactsResponse = await resend.contacts.list({ audienceId });
-    const contacts = (contactsResponse as any)?.data ?? [];
 
-    const subscribers = (Array.isArray(contacts) ? contacts : [])
-      .filter((c: any) => c?.email && c?.unsubscribed !== true);
+  // Resend returns { data: Contact[] }
+  const contacts = (contactsResponse as any)?.data ?? [];
+
+  const subscribers = (Array.isArray(contacts) ? contacts : []).filter(
+    (c: any) => c?.email && c?.unsubscribed !== true
+  );
 
     if (subscribers.length === 0) {
       return NextResponse.json({ sent: 0, message: "No active subscribers" });
     }
 
-    // --- Post metadata ---
-    const metaObj = meta as Record<string, string>;
+    // --- Post metadata for template ---
     const postMeta = {
-      title: metaObj.title ?? slug.replace(/[-_]/g, " "),
-      date: metaObj.date ?? "",
-      summary: metaObj.excerpt ?? metaObj.summary ?? "",
+      title: (meta as Record<string, string>).title ?? slug.replace(/[-_]/g, " "),
+      date: (meta as Record<string, string>).date ?? "",
+      summary:
+        (meta as Record<string, string>).excerpt ??
+        (meta as Record<string, string>).summary ??
+        "",
+      slug,
       url: `${SITE_URL}/writing/${slug}`,
     };
 
-    // --- Send sequentially with throttling + retry ---
-    const results: {
-      total: number;
-      sent: number;
-      suppressed: number;
-      failed: number;
-      errors: string[];
-    } = {
-      total: subscribers.length,
+    // --- Send to each subscriber ---
+    const results: { sent: number; failed: number; errors: string[] } = {
       sent: 0,
-      suppressed: 0,
       failed: 0,
       errors: [],
     };
 
-    // Keep below 2 req/sec => >= 600ms spacing is safe.
-    const perEmailDelayMs = 650;
-
     for (const contact of subscribers) {
-      const email = String(contact.email).trim();
-      const contactId = String(contact.id ?? "");
-      const unsubscribeUrl = `${SITE_URL}/api/unsubscribe?id=${encodeURIComponent(
-        contactId
-      )}&audienceId=${encodeURIComponent(audienceId)}`;
+      const unsubscribeUrl = `${SITE_URL}/api/unsubscribe?id=${contact.id}&audienceId=${audienceId}`;
 
-      const emailHtml = buildEmailHtml({
-        post: { ...postMeta, url: postMeta.url },
-        articleHtml,
-        unsubscribeUrl,
-      });
+      const emailHtml = buildEmailHtml({ post: postMeta, articleHtml, unsubscribeUrl });
 
       try {
-        await sendWithRetry(
-          resend,
-          {
-            from: process.env.RESEND_FROM_EMAIL!,
-            to: email,
-            subject: postMeta.title,
-            html: emailHtml,
-          },
-          { maxAttempts: 4, baseDelayMs: 800 }
-        );
-
+        await resend.emails.send({
+          from: process.env.RESEND_FROM_EMAIL!,
+          to: contact.email,
+          subject: postMeta.title,
+          html: emailHtml,
+        });
         results.sent++;
       } catch (err) {
-        if (isSuppressionError(err)) {
-          results.suppressed++;
-        } else {
-          results.failed++;
-        }
-
+        results.failed++;
         const msg = err instanceof Error ? err.message : String(err);
-        results.errors.push(`${email}: ${msg}`);
-        console.error(`Failed to send to ${email}:`, err);
+        results.errors.push(`${contact.email}: ${msg}`);
+        console.error(`Failed to send to ${contact.email}:`, err);
       }
-
-      // throttle between sends
-      await sleep(perEmailDelayMs);
     }
 
     return NextResponse.json(results);
