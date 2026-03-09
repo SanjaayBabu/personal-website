@@ -123,7 +123,14 @@ export async function POST(req: NextRequest) {
     const auth = req.headers.get("authorization") ?? "";
     const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
     if (!token || token !== process.env.NEWSLETTER_SECRET) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({
+        error: "Unauthorized",
+        _debug: {
+          secretSet: !!process.env.NEWSLETTER_SECRET,
+          secretLen: process.env.NEWSLETTER_SECRET?.length ?? 0,
+          tokenLen: token.length,
+        },
+      }, { status: 401 });
     }
 
     // --- Parse slug ---
