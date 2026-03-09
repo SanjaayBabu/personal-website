@@ -196,21 +196,27 @@ export async function POST(req: NextRequest) {
       const emailHtml = buildEmailHtml({ post: postMeta, articleHtml, unsubscribeUrl });
 
       try {
-        await resend.emails.send({
+        const { error } = await resend.emails.send({
           from: process.env.RESEND_FROM_EMAIL!,
           to: contact.email,
           subject: postMeta.title,
           html: emailHtml,
         });
-        results.sent++;
-        // Stay under Resend's 2 req/sec rate limit
-        await sleep(650);
+        if (error) {
+          results.failed++;
+          results.errors.push(`${contact.email}: ${(error as { message?: string }).message ?? String(error)}`);
+          console.error(`Failed to send to ${contact.email}:`, error);
+        } else {
+          results.sent++;
+        }
       } catch (err) {
         results.failed++;
         const msg = err instanceof Error ? err.message : String(err);
         results.errors.push(`${contact.email}: ${msg}`);
         console.error(`Failed to send to ${contact.email}:`, err);
       }
+      // Always wait between sends — Resend rate limit is 2 req/sec
+      await sleep(700);
     }
 
     return NextResponse.json(results);
