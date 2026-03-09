@@ -206,7 +206,7 @@ function TagButton({
       onClick={onClick}
       className={`text-sm px-3 py-1 rounded-full border transition ${
         active
-          ? "bg-accent/10 border-accent text-accent"
+          ? "bg-foreground border-foreground text-background"
           : "bg-transparent border-border/40 text-muted-foreground hover:bg-card/10"
       }`}
     >
