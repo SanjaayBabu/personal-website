@@ -3,6 +3,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import WritingList from "./WritingList";
+import MailingListSignup from "./MailingListSignup";
 import type { PostMeta } from "@/lib/writing";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -177,6 +178,13 @@ export default function WritingSection() {
             totalPages={totalPages}
             onPageChange={setPage}
           />
+        )}
+
+        {/* Mailing list signup */}
+        {!loading && (
+          <div className="mt-8">
+            <MailingListSignup />
+          </div>
         )}
       </div>
     </section>
