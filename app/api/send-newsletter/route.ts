@@ -5,6 +5,10 @@ import { readRawPost, renderMarkdownToHtml } from "@/lib/writing";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://sanjaaybabu.com";
 
+function sleep(ms: number) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
 function esc(s: string): string {
   return s
     .replace(/&/g, "&amp;")
@@ -123,14 +127,7 @@ export async function POST(req: NextRequest) {
     const auth = req.headers.get("authorization") ?? "";
     const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
     if (!token || token !== process.env.NEWSLETTER_SECRET) {
-      return NextResponse.json({
-        error: "Unauthorized",
-        _debug: {
-          secretSet: !!process.env.NEWSLETTER_SECRET,
-          secretLen: process.env.NEWSLETTER_SECRET?.length ?? 0,
-          tokenLen: token.length,
-        },
-      }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // --- Parse slug ---
@@ -164,12 +161,11 @@ export async function POST(req: NextRequest) {
     const audienceId = process.env.RESEND_AUDIENCE_ID!;
     const contactsResponse = await resend.contacts.list({ audienceId });
 
-  // Resend returns { data: Contact[] }
-  const contacts = (contactsResponse as any)?.data ?? [];
-
-  const subscribers = (Array.isArray(contacts) ? contacts : []).filter(
-    (c: any) => c?.email && c?.unsubscribed !== true
-  );
+    // Resend SDK returns { data: { data: Contact[], object: 'list' } }
+    const contacts =
+      (contactsResponse.data as { data?: { id: string; email: string; unsubscribed: boolean }[] })
+        ?.data ?? [];
+    const subscribers = contacts.filter((c) => !c.unsubscribed);
 
     if (subscribers.length === 0) {
       return NextResponse.json({ sent: 0, message: "No active subscribers" });
@@ -207,6 +203,8 @@ export async function POST(req: NextRequest) {
           html: emailHtml,
         });
         results.sent++;
+        // Stay under Resend's 2 req/sec rate limit
+        await sleep(650);
       } catch (err) {
         results.failed++;
         const msg = err instanceof Error ? err.message : String(err);
