@@ -57,7 +57,7 @@ function getTextContent(children: React.ReactNode): string {
   return "";
 }
 
-function makeHeading(Tag: "h2" | "h3" | "h4") {
+function makeHeading(Tag: "h1" | "h2" | "h3" | "h4") {
   return function Heading({
     children,
     ...props
@@ -79,6 +79,7 @@ export default function MDXPost({ source }: Props) {
     Aside,
     Tip,
     img: MDXImage,
+    h1: makeHeading("h1"),
     h2: makeHeading("h2"),
     h3: makeHeading("h3"),
     h4: makeHeading("h4"),
