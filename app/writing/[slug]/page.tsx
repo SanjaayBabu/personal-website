@@ -50,7 +50,7 @@ type Props = { params: Promise<{ slug: string }> };
 function remarkExtractHeadings(out: Heading[]) {
   return () => (tree: any) => {
     visit(tree, "heading", (node: any) => {
-      if (node.depth === 1 || node.depth > 3) return;
+      if (node.depth > 3) return;
       const text = node.children
         .filter((c: any) => c.type === "text" || c.type === "inlineCode")
         .map((c: any) => c.value)
