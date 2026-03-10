@@ -13,7 +13,9 @@ import BackToHome from "@/components/writing/BackToHome";
 import PostNav from "@/components/writing/PostNav";
 import RelatedPosts from "@/components/writing/RelatedPosts";
 import ReadingProgress from "@/components/writing/ReadingProgress";
+import TableOfContents from "@/components/writing/TableOfContents";
 import remarkGfm from "remark-gfm";
+import { slugify, type Heading } from "@/lib/headings";
 
 function stripMarkdown(text: string): string {
   return text
@@ -45,6 +47,20 @@ function stripMarkdown(text: string): string {
 
 type Props = { params: Promise<{ slug: string }> };
 
+function remarkExtractHeadings(out: Heading[]) {
+  return () => (tree: any) => {
+    visit(tree, "heading", (node: any) => {
+      if (node.depth === 1 || node.depth > 3) return;
+      const text = node.children
+        .filter((c: any) => c.type === "text" || c.type === "inlineCode")
+        .map((c: any) => c.value)
+        .join("");
+      if (!text) return;
+      out.push({ depth: node.depth, text, id: slugify(text) });
+    });
+  };
+}
+
 /**
  * remark plugin to rewrite relative image URLs to a shared images folder.
  */
@@ -72,11 +88,12 @@ export default async function PostPage(props: Props) {
 
   const { raw: content, meta } = raw;
 
+  const headings: Heading[] = [];
   let mdxSource: MDXRemoteSerializeResult;
   try {
     mdxSource = await serialize(content, {
       mdxOptions: {
-        remarkPlugins: [remarkGfm, remarkRewriteImages()],
+        remarkPlugins: [remarkGfm, remarkRewriteImages(), remarkExtractHeadings(headings)],
       },
     });
   } catch (err) {
@@ -110,53 +127,64 @@ export default async function PostPage(props: Props) {
   return (
     <main className="px-4 sm:px-6 lg:px-8 py-12">
       <ReadingProgress />
-      <div className="mx-auto max-w-3xl">
-        <article>
-          <BackToHome />
-
-          <header className="mb-6">
-            <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
-              {meta.title || (slug ? slug.replace(/[-_]/g, " ") : "")}
-            </h1>
-
-            {meta.date && (
-              <div className="mt-2 text-sm text-muted-foreground">
-                <span>{meta.date}</span>
-                {meta.readTime ? <span> • {meta.readTime}</span> : null}
+      <div className="mx-auto max-w-7xl">
+        <div className="flex gap-12 justify-center">
+          {headings.length > 0 && (
+            <aside className="hidden xl:block w-52 flex-shrink-0">
+              <div className="sticky top-1/2 -translate-y-1/2">
+                <TableOfContents headings={headings} />
               </div>
-            )}
-
-            {meta.summary && (
-              <p className="mt-4 text-lg text-muted-foreground">{meta.summary}</p>
-            )}
-          </header>
-
-          <TextToSpeechPlayer text={stripMarkdown(content)} />
-
-          <section className="prose prose-lg dark:prose-invert max-w-none">
-            <MDXPostWrapper source={mdxSource as any} />
-          </section>
-
-          {tags.length > 0 && (
-            <footer className="mt-8">
-              <div className="flex flex-wrap gap-2">
-                {tags.map((t: string) => (
-                  <Link
-                    key={t}
-                    href={`/writing?tag=${encodeURIComponent(t)}`}
-                    className="text-sm px-2 py-1 rounded border"
-                  >
-                    {t}
-                  </Link>
-                ))}
-              </div>
-            </footer>
+            </aside>
           )}
 
-          <RelatedPosts posts={related} />
+          <article className="w-full max-w-3xl min-w-0">
+            <BackToHome />
 
-          <PostNav prev={prevPost} next={nextPost} />
-        </article>
+            <header className="mb-6">
+              <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
+                {meta.title || (slug ? slug.replace(/[-_]/g, " ") : "")}
+              </h1>
+
+              {meta.date && (
+                <div className="mt-2 text-sm text-muted-foreground">
+                  <span>{meta.date}</span>
+                  {meta.readTime ? <span> • {meta.readTime}</span> : null}
+                </div>
+              )}
+
+              {meta.summary && (
+                <p className="mt-4 text-lg text-muted-foreground">{meta.summary}</p>
+              )}
+            </header>
+
+            <TextToSpeechPlayer text={stripMarkdown(content)} />
+
+            <section className="prose prose-lg dark:prose-invert max-w-none">
+              <MDXPostWrapper source={mdxSource as any} />
+            </section>
+
+            {tags.length > 0 && (
+              <footer className="mt-8">
+                <div className="flex flex-wrap gap-2">
+                  {tags.map((t: string) => (
+                    <Link
+                      key={t}
+                      href={`/writing?tag=${encodeURIComponent(t)}`}
+                      className="text-sm px-2 py-1 rounded border"
+                    >
+                      {t}
+                    </Link>
+                  ))}
+                </div>
+              </footer>
+            )}
+
+            <RelatedPosts posts={related} />
+
+            <PostNav prev={prevPost} next={nextPost} />
+          </article>
+
+        </div>
       </div>
     </main>
   );
