@@ -127,17 +127,16 @@ export default async function PostPage(props: Props) {
   return (
     <main className="px-4 sm:px-6 lg:px-8 py-12">
       <ReadingProgress />
-      <div className="mx-auto max-w-7xl">
-        <div className="flex gap-12 justify-center">
-          {headings.length > 0 && (
-            <aside className="hidden xl:block w-52 flex-shrink-0">
-              <div className="sticky top-1/2 -translate-y-1/2">
-                <TableOfContents headings={headings} />
-              </div>
-            </aside>
-          )}
+      <div className="relative mx-auto max-w-7xl">
+        {headings.length > 0 && (
+          <aside className="hidden xl:block absolute left-0 top-0 w-52 h-full">
+            <div className="sticky top-1/2 -translate-y-1/2">
+              <TableOfContents headings={headings} />
+            </div>
+          </aside>
+        )}
 
-          <article className="w-full max-w-3xl min-w-0">
+        <article className="mx-auto max-w-3xl">
             <BackToHome />
 
             <header className="mb-6">
@@ -183,8 +182,6 @@ export default async function PostPage(props: Props) {
 
             <PostNav prev={prevPost} next={nextPost} />
           </article>
-
-        </div>
       </div>
     </main>
   );
