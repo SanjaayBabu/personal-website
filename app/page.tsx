@@ -205,6 +205,15 @@ export default function Home() {
                   </div>
                   <div>United States | Singapore</div>
                 </div>
+
+                <Link
+                  href="/now"
+                  className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-full border border-border hover:border-muted-foreground/50 transition-all duration-300 w-fit group"
+                >
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-muted-foreground group-hover:text-foreground transition-colors">What I&apos;m working on now</span>
+                  <span className="text-muted-foreground/50 group-hover:translate-x-0.5 transition-transform">→</span>
+                </Link>
               </div>
             </div>
 
