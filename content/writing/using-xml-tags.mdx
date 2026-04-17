@@ -1,0 +1,50 @@
+---
+title: "Stop Talking to AI and Start Directing It: How to use XML tags to better structure prompts and responses"
+excerpt: "Use XML tags in your AI prompting to make for more useful."
+date: "2026-04-17"
+author: "Sanjaay Babu"
+readTime: "7 min read"
+tags:
+- tech
+---
+If you’ve spent any time using Large Language Models (LLMs) for professional work, you’ve likely hit the "hallucination wall." You give a clear instruction, and the AI wanders off-script, making up facts or ignoring your formatting rules.
+
+Most people try to fix this by adding more words—pleading with the AI to "be accurate" or "think step-by-step." But a [recent research paper](https://arxiv.org/html/2509.08182v1), "XML Prompting as Grammar-Constrained Interaction," suggests we’ve been looking at the problem the wrong way. The solution isn’t more conversation; it’s better architecture.
+
+# The Chaos of "Vibes-Based" Prompting
+
+Most AI interactions today are "vibes-based." We treat the AI like a person in a chat room. But under the hood, an LLM is a mathematical engine. When we give it a wall of plain text, it’s easy for the model to lose track of where the instructions end and the data begins.
+
+By using XML tags (like `<instruction>` or `<data>`), you turn a rambling request into a functional protocol.
+
+![aicompanies](./images/ai-logos.jpg)
+
+# 5 Actionable Strategies for Better AI Results
+Here is how to move from "chatting" to "architecting" your prompts:
+
+## 1. Use Hierarchical Containers
+Wrap your entire request in "root" tags. This prevents "context bleeding," where the model confuses your instructions with the data you want it to process.
+
+Example:
+```xml
+<instruction_set>
+  <task>Summarize this report</task>
+  <data>[Insert Report Text]</data>
+</instruction_set>
+```
+
+## 2. Segregate Roles Functionally
+If you need the AI to perform multiple steps (e.g., draft, critique, then refine), use tags to delineate when it should switch modes. This keeps the logic branches separate and clean.
+
+Example: Use `<draft_phase>`, `<critique_phase>`, and `<final_output>` tags.
+
+## 3. Force a "Reasoning Scratchpad"
+One of the most effective ways to reduce errors is to force the model to separate its internal thinking from its final answer.
+
+The Strategy: Tell the AI: "First, write your internal logic inside `<scratchpad>` tags, then provide the final result in `<output>` tags." This ensures the "noise" of reasoning doesn't clutter the actual answer.
+
+## 4. Demand Grammar-Constrained Output
+If you need data for a specific tool—like a table for Excel or code for a website—don't just ask for it. Explicitly command the AI to wrap the result in specific tags. This makes it easier for you to "cut and paste" exactly what you need without the AI's conversational filler.
+
+## 5. Aim for "Convergence"
+The paper highlights an overlooked insight: Hallucination is a convergence problem. By forcing the AI to fill out an `<evidence>` tag before an `<answer>` tag, you aren't just giving it "time to think." You are mathematically narrowing the field of possible wrong answers, forcing it to ground the conclusion in the facts it just cited.
