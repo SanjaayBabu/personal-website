@@ -6,6 +6,7 @@ export type EducationItem = {
   location: string
   summary: string
   details: string[]
+  link?: { href: string; label: string }
 }
 
 export const EducationItems: EducationItem[] = [
@@ -16,6 +17,7 @@ export const EducationItems: EducationItem[] = [
     school: "Duke University",
     location: "Durham, NC",
     summary: "Intended Focus: Economics, Philosophy & Public Policy",
+    link: { href: "/duke", label: "At Duke →" },
     details: [
         "Fall 2025 Coursework: Economic Fundamentals, Theory of Freedom & Moral Obligations (Philosophy), Theory & Practice of Restorative Justice, Religion and Politics in Post-Revolutionary Iran.",
         "Spring 2026 Coursework: Foundations of Econometrics, Calculus II, Climate Change for Future Leaders, Writing (Wisdom and Comparative Rhetoric), Development and Africa, European Union: Future or Fading?",
