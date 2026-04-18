@@ -1,5 +1,6 @@
 // components/education/EducationItem.tsx
 import React from "react";
+import Link from "next/link";
 import type { EducationItem as EducationType } from "@/lib/education";
 
 export function EducationItem({
@@ -34,16 +35,25 @@ export function EducationItem({
             <p className="text-sm text-muted-foreground mt-4">{item.summary}</p>
           ) : null}
 
-<div className="mt-6 lg:hidden">
+<div className="mt-6 lg:hidden flex flex-col gap-2">
   <button
     onClick={(e) => {
       e.stopPropagation();
       onClick(item);
     }}
-    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+    className="text-sm text-muted-foreground hover:text-foreground transition-colors text-left"
   >
     View details →
   </button>
+  {item.link && (
+    <Link
+      href={item.link.href}
+      onClick={(e) => e.stopPropagation()}
+      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+    >
+      {item.link.label}
+    </Link>
+  )}
 </div>
         </div>
 
@@ -54,16 +64,25 @@ export function EducationItem({
   </div>
 
   {/* View details (desktop) */}
-  <div className="hidden lg:block mt-6">
+  <div className="hidden lg:flex lg:flex-col gap-2 mt-6">
     <button
       onClick={(e) => {
         e.stopPropagation();
         onClick(item);
       }}
-      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+      className="text-sm text-muted-foreground hover:text-foreground transition-colors text-right"
     >
       View details →
     </button>
+    {item.link && (
+      <Link
+        href={item.link.href}
+        onClick={(e) => e.stopPropagation()}
+        className="text-sm text-muted-foreground hover:text-foreground transition-colors text-right"
+      >
+        {item.link.label}
+      </Link>
+    )}
   </div>
 
   {/* Small screen date */}
