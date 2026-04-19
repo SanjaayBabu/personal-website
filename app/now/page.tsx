@@ -102,10 +102,10 @@ const sections = [
     content: (
       <ul className="space-y-2">
         {[
-          "How institutions encode values, and whether that\u2019s fixable",
-          "The tension between legibility and nuance in public writing",
-          "Whether economic growth and ecological sustainability are actually compatible",
-          "What it means to write clearly about complex systems",
+          "How to make a moral argument to deal with climate change that compels meaningful action.",
+          "How to ensure that AI is aligned with human values and can actually benefit humanity.",
+          "How developed countries can do more for developing countries, without falling into the trap of paternalism or neocolonialism.",
+          "What education can and should look like in an AI-centered future.",
         ].map((item) => (
           <li key={item} className="flex items-start gap-3">
             <span className="mt-2 w-1.5 h-1.5 rounded-full bg-violet-500/60 shrink-0" />
