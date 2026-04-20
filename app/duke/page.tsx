@@ -17,9 +17,14 @@ type Semester = {
   photo?: string
   /** RGB values of the slide's accent — drives the background wash */
   accentRGB: [number, number, number]
-  courses: Course[]
-  orgs: OrgEntry[]
+  // Standard semester fields
+  courses?: Course[]
+  orgs?: OrgEntry[]
   moments?: string[]
+  // Break / summer fields (renders instead of courses/orgs when present)
+  worked?: string[]
+  read?: string[]
+  fun?: string[]
 }
 
 // ─── Add / edit semesters here ───────────────────────────────────────────────
@@ -34,7 +39,7 @@ const semesters: Semester[] = [
       { name: "Freedom and Moral Obligation",       take: "Leaning into uncertainty. You often don't reach many conclusions at the end of philosophy classes, but you totally love the process." },
       { name: "Just Work: Restorative Justice Models and Applications",  take: "What a class. Forced me to question old paradigms, not just about justice but also what really defines a 'functiona' society." },
       { name: "Econ 101",                         take: "Simple, but a useful spanning overview." },
-      { name: "Religion and Politics in Post-Revolutionary Iran",              take: "Developed a much better understanding of contemporaryIran, the Middle East, and the underlying religious arguments behind theocratic regimes. A highly timely class given volatility in the Middle East. Incredible professor." },
+      { name: "Religion and Politics in Post-Revolutionary Iran",              take: "Developed a much better understanding of contemporary Iran, the Middle East, and the underlying religious arguments behind theocratic regimes. A highly timely class given volatility in the Middle East. Incredible professor." },
     ],
     orgs: [
       { name: "Duke Debate", role: "Team Member", note: "Decided to hop into college debate despite no high school experience. Had lots of fun learning the fundamentals of British Parliamentary Debate. Broke into Open Quarter-finals at Seattle IV 2025 and ranked 6th best Novice Speaker in the tournament." },
@@ -47,7 +52,28 @@ const semesters: Semester[] = [
       "Went to a few American football games and figured out the rules. Still not a hundred percent sure I get it, but at least I knew what was going on.",
       "Completed the wonderful RDC half-marathon in Durham, NC with some friends from Duke",
       "Went to Washington, DC for the first time with my FOCUS program. Had an awesome time.",
+      "Attended an incredible closed-door dinner with the Secretary of State of the United States, Antony Blinken, as part of the Program on American Grand Strategy. Got to ask him a question, six feet apart, about the US' approach towards non-state actors.",
       "Had to drive through a snowstorm in a rental car with no snow tires to get from Aspen to the Rocky Mountains. A day later, was stuck in Chicago with more than 6 hours worth of delays. Still had a great time.",
+    ],
+  },
+  {
+    id: "winter-2025",
+    term: "Winter 2025",
+    subtitle: "Back home in Singapore",
+    accentRGB: [139, 92, 246],   // violet-500
+    photo: "/duke/winter-2025.jpg",
+    worked: [
+      "Built this website using ChatGPT, next.js, and Tailwind CSS. Struggled to get it up and running, and had to debug a bunch of things myself. Thanks Akshay.",
+      "Learnt how to utilize Artificial Intelligence tools effectively, to ride the wave amidst a new paradigm of work and life.",
+      "Consolidated my notes from the fall semester, and reflected on what I want to do going forward. Also did some soul-searching about what I want to do with my life, and how I can make the most of this opportunity at Duke.",
+    ],
+    read: [
+      "Civilized to Death by Christopher Ryan.",
+      "Killing Floor by Lee Child.",
+      "Discipline and Punish by Michel Foucault.",
+    ],
+    fun: [
+      "Was in the UK. Went to Birmingham, Stratford-upon-Avon, Morpeth, Edinburgh, and London. Had the most incredbile time ever.",
     ],
   },
   {
@@ -55,7 +81,7 @@ const semesters: Semester[] = [
     term: "Spring 2026",
     subtitle: "Upping the ante & taking off",
     accentRGB: [16, 185, 129],   // emerald-500
-    // photo: "/duke/spring-2026.jpg",
+    photo: "/duke/spring-2026.jpg",
     courses: [
       { name: "Econometrics",   take: "Learning about the statistical models that are all around us all the time. Expected value has been my favourite concept. I've been using that term all the time since learning more about it." },
       { name: "Climate Change", take: "The most important class I've taken. Still processing what to do with it. Climate change will be the biggest threat to human existence, and I'm not a hundred percent sure we're going to realize that in time. Thinking about what I can do in my capacity to prevent us from reaching that brink." },
@@ -64,16 +90,34 @@ const semesters: Semester[] = [
       { name: "Calculus II",    take: "Awesome maths class. Taught me how to be organized with information and think systematically." },
     ],
     orgs: [
-      { name: "Duke Southeast Asian Community", role: "Founding Exec",      note: "Building a space for the Southeast Asian community at Duke. Working on programming and general club administration. Ran an event celebrating Water Festivals in Southeast Asia." },
-      { name: "Duke Impact Investing Group", role: "Consulting Analyst", note: "Worked on two projects with non-profits."},
-      { name: "Kenan Institute ReWork Lab",      role: "Fellow",             note: "Trained in restorative facilitation with Ada Gregory." },
-      { name: "Duke DevLab",                     role: "Research Assistant", note: "Working on a paper on deforestation and supply chain traceability." },
+      { name: "Duke Debate", role: "Team Member", note: "Had a blast debating again this semester. Novice Champions @ Berkeley IV 2026 tournament, beating out teams from across the US and Canada."},
+      { name: "Duke Federal Reserve Challenge Team", role: "Senior Analyst", note: "Dove deeper into macroeconomics analysis, and got to apply it in a competition setting through two internal competitions. Selected to be on the Presentation Team for the Federal Reserve Challenge 2026." },
+      { name: "Duke Impact Investing Group", role: "Consulting Analyst", note: "Worked on two projects with non-profits - the first with a non-profit focussed on promoting development in the Indian Himalayan Region, and the second with an NGO utilizing extreme sports to support combat veterans with disabilities."},
+      { name: "Duke DevLab", role: "Research Assistant", note: "Working on a paper on deforestation and supply chain traceability." },
+      { name: "Bluedot Impact AGI Strategy Course", role: "Fellow", note: "Learning about potential futures for AI, and how we can ensure responsible development." },
+      { name: "Kenan Institute ReWork Lab", role: "Fellow", note: "Trained in restorative facilitation with Ada Gregory." },
+      { name: "Duke Human Rights Center Student Advisory Board", role: "Member", note: "Continued my work with SAB. Contributed question-generation for Human Rights Across the Professions, an event aimed at revealing potential career paths within the human rights space." },
+      { name: "Duke Singapore Students' Association", role: "Internal Vice-President", note: "Continued my work seeking to build a strong Singaporean community on campus. Helped to organize welcome events for incoming freshmen, and participated in a Senior Sendoff event for our dear graduating seniors." },
+      { name: "Duke Southeast Asian Community", role: "Founding Exec", note: "Building a space for the Southeast Asian community at Duke. Working on programming and general club administration. Ran an event celebrating Water Festivals in Southeast Asia." },
+      { name: "Duke UNICEF", role: "Co-lead of International Advocacy", note: "Led a panel discussion with three experts across psychology, economics and pedagogy to understand the impacts of changing asylum policies around the world on children."},
     ],
     moments: [
       "Popped my knee during a friendly squash game against our sworn rivals, University of North Carolina at Chapel Hill. Spent the next few weeks on crutches, hobbling to class and trying to keep up with coursework while immobile. But had a wonderful group of friends who were my rock and kept me going.",
       "Had a blast during my weekend trip to San Francisco for the Berkeley IV debate tournament. Emerged Novice Champions, and made great memories. Also, got to spend time with my cousin for the first time in more than a decade, and had a delightful time together.",
       "Took a trip to Washington, DC as part of the Sanford Policy Pathways program. Visited fascinating organizations such as the US Department of State, United Nations Foundation, National Geographic Society, and more. Met wonderful people, both students and alumni. Was inspired to make my career meaningful, and make my passions come alive. Got new mentors and new intellectual sparring partners.",
+      "Watched Duke trounce UNC at the home game. Campus came alive that day. Also got to see Duke take the loss to UConn at the Elite Eight. We'll be back next time.",
+      "Attended a public fireside chat with Mr. Pita Limjaroenrat, a prominent Thai opposition figure. Interesting sharing on the nature of Thai politics, and what lies ahead for him.",
     ],
+  },
+  {
+    id: "summer-2026",
+    term: "Summer 2026",
+    subtitle: "TBD",
+    accentRGB: [245, 158, 11],   // amber-500
+    // photo: "/duke/summer-2026.jpg",
+    worked: [],
+    read: [],
+    fun: [],
   },
 ]
 // ─────────────────────────────────────────────────────────────────────────────
@@ -219,61 +263,112 @@ export default function AtDuke() {
                         )}
                       </div>
 
-                      {/* Details — category colors stay fixed across slides */}
+                      {/* Details */}
                       <div className="flex flex-col gap-3 min-h-0 overflow-y-auto">
-
-                        {/* Courses — always blue */}
-                        <div className="rounded-xl border border-blue-500/20 bg-blue-500/8 p-4 shrink-0">
-                          <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-3">
-                            Courses
-                          </p>
-                          <ul className="space-y-2.5">
-                            {sem.courses.map(c => (
-                              <li key={c.name}>
-                                <p className="text-sm font-medium leading-snug">{c.name}</p>
-                                {c.take && (
-                                  <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{c.take}</p>
+                        {sem.worked !== undefined || sem.read !== undefined || sem.fun !== undefined ? (
+                          // ── Break / summer layout ──────────────────────────
+                          <>
+                            {sem.worked !== undefined && (
+                              <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/8 p-4 shrink-0">
+                                <p className="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-3">Things I worked on</p>
+                                {sem.worked.length > 0 ? (
+                                  <ul className="space-y-1.5">
+                                    {sem.worked.map(w => (
+                                      <li key={w} className="flex items-start gap-2.5">
+                                        <span className="mt-[6px] w-1 h-1 rounded-full bg-emerald-500/50 shrink-0" />
+                                        <span className="text-sm text-muted-foreground leading-snug">{w}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                ) : (
+                                  <p className="text-sm text-muted-foreground italic">Coming soon.</p>
                                 )}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        {/* Involvement — always emerald */}
-                        <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/8 p-4 shrink-0">
-                          <p className="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-3">
-                            Involvement
-                          </p>
-                          <ul className="space-y-2.5">
-                            {sem.orgs.map(o => (
-                              <li key={o.name}>
-                                <div className="flex items-baseline gap-1.5 flex-wrap">
-                                  <span className="text-sm font-medium">{o.name}</span>
-                                  <span className="text-xs text-muted-foreground">— {o.role}</span>
-                                </div>
-                                {o.note && (
-                                  <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{o.note}</p>
+                              </div>
+                            )}
+                            {sem.read !== undefined && (
+                              <div className="rounded-xl border border-blue-500/20 bg-blue-500/8 p-4 shrink-0">
+                                <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-3">Things I read</p>
+                                {sem.read.length > 0 ? (
+                                  <ul className="space-y-1.5">
+                                    {sem.read.map(r => (
+                                      <li key={r} className="flex items-start gap-2.5">
+                                        <span className="mt-[6px] w-1 h-1 rounded-full bg-blue-500/50 shrink-0" />
+                                        <span className="text-sm text-muted-foreground leading-snug">{r}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                ) : (
+                                  <p className="text-sm text-muted-foreground italic">Coming soon.</p>
                                 )}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        {/* Moments — always amber */}
-                        {sem.moments && sem.moments.length > 0 && (
-                          <div className="rounded-xl border border-amber-500/20 bg-amber-500/8 p-4 shrink-0">
-                            <p className="text-xs font-semibold uppercase tracking-widest text-amber-500 mb-3">
-                              Moments
-                            </p>
-                            <ul className="space-y-1.5">
-                              {sem.moments.map(m => (
-                                <li key={m} className="flex items-start gap-2.5">
-                                  <span className="mt-[6px] w-1 h-1 rounded-full bg-amber-500/50 shrink-0" />
-                                  <span className="text-sm text-muted-foreground leading-snug">{m}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
+                              </div>
+                            )}
+                            {sem.fun !== undefined && (
+                              <div className="rounded-xl border border-amber-500/20 bg-amber-500/8 p-4 shrink-0">
+                                <p className="text-xs font-semibold uppercase tracking-widest text-amber-500 mb-3">Things I did for fun</p>
+                                {sem.fun.length > 0 ? (
+                                  <ul className="space-y-1.5">
+                                    {sem.fun.map(f => (
+                                      <li key={f} className="flex items-start gap-2.5">
+                                        <span className="mt-[6px] w-1 h-1 rounded-full bg-amber-500/50 shrink-0" />
+                                        <span className="text-sm text-muted-foreground leading-snug">{f}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                ) : (
+                                  <p className="text-sm text-muted-foreground italic">Coming soon.</p>
+                                )}
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          // ── Semester layout ────────────────────────────────
+                          <>
+                            {/* Courses — always blue */}
+                            {sem.courses && (
+                              <div className="rounded-xl border border-blue-500/20 bg-blue-500/8 p-4 shrink-0">
+                                <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-3">Courses</p>
+                                <ul className="space-y-2.5">
+                                  {sem.courses.map(c => (
+                                    <li key={c.name}>
+                                      <p className="text-sm font-medium leading-snug">{c.name}</p>
+                                      {c.take && <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{c.take}</p>}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            {/* Involvement — always emerald */}
+                            {sem.orgs && (
+                              <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/8 p-4 shrink-0">
+                                <p className="text-xs font-semibold uppercase tracking-widest text-emerald-500 mb-3">Involvement</p>
+                                <ul className="space-y-2.5">
+                                  {sem.orgs.map(o => (
+                                    <li key={o.name}>
+                                      <div className="flex items-baseline gap-1.5 flex-wrap">
+                                        <span className="text-sm font-medium">{o.name}</span>
+                                        <span className="text-xs text-muted-foreground">— {o.role}</span>
+                                      </div>
+                                      {o.note && <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{o.note}</p>}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            {/* Moments — always amber */}
+                            {sem.moments && sem.moments.length > 0 && (
+                              <div className="rounded-xl border border-amber-500/20 bg-amber-500/8 p-4 shrink-0">
+                                <p className="text-xs font-semibold uppercase tracking-widest text-amber-500 mb-3">Moments</p>
+                                <ul className="space-y-1.5">
+                                  {sem.moments.map(m => (
+                                    <li key={m} className="flex items-start gap-2.5">
+                                      <span className="mt-[6px] w-1 h-1 rounded-full bg-amber-500/50 shrink-0" />
+                                      <span className="text-sm text-muted-foreground leading-snug">{m}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </>
                         )}
                       </div>
                     </div>
