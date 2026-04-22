@@ -147,6 +147,30 @@
   }
 
 }
+/* ============================================
+   Feature: Kinetic Typography
+   ============================================ */
+@keyframes char-rise {
+  from { opacity: 0; transform: translateY(0.3em); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0);     filter: blur(0px); }
+}
+@keyframes word-rise {
+  from { opacity: 0; transform: translateY(0.2em); filter: blur(8px); }
+  to   { opacity: 1; transform: translateY(0);     filter: blur(0px); }
+}
+
+.char-animate {
+  display: inline-block;
+  opacity: 0;
+  animation: char-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.animate-word-rise {
+  display: inline-block;
+  opacity: 0;
+  animation: word-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+
 /* ================================
    Writing / Prose (Medium-style)
    ================================ */

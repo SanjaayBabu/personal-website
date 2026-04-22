@@ -183,9 +183,27 @@ export default function Home() {
               <div className="space-y-3 sm:space-y-2">
                 <div className="text-sm text-muted-foreground font-mono tracking-wider">PORTFOLIO / 2026</div>
                 <h1 className={`${lora.className} text-5xl sm:text-6xl lg:text-7xl font-normal tracking-tight`}>
-                  <span className="text-gradient-brand">Sanjaay</span>
+                  {/* "Sanjaay" blurs in as one unit to preserve the gradient */}
+                  <span
+                    className="text-gradient-brand animate-word-rise"
+                    style={{ animationDelay: "0.15s" }}
+                  >
+                    Sanjaay
+                  </span>
                   <br />
-                  <span className="text-muted-foreground">Babu</span>
+                  {/* "Babu" rises character-by-character */}
+                  <span className="text-muted-foreground" aria-label="Babu">
+                    {"Babu".split("").map((char, i) => (
+                      <span
+                        key={i}
+                        className="char-animate"
+                        style={{ animationDelay: `${0.5 + i * 0.08}s` }}
+                        aria-hidden
+                      >
+                        {char}
+                      </span>
+                    ))}
+                  </span>
                 </h1>
               </div>
 
