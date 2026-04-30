@@ -107,6 +107,7 @@ const semesters: Semester[] = [
       "Took a trip to Washington, DC as part of the Sanford Policy Pathways program. Visited fascinating organizations such as the US Department of State, United Nations Foundation, National Geographic Society, and more. Met wonderful people, both students and alumni. Was inspired to make my career meaningful, and make my passions come alive. Got new mentors and new intellectual sparring partners.",
       "Watched Duke trounce UNC at the home game. Campus came alive that day. Also got to see Duke take the loss to UConn at the Elite Eight. We'll be back next time.",
       "Attended a public fireside chat with Mr. Pita Limjaroenrat, a prominent Thai opposition figure. Interesting sharing on the nature of Thai politics, and what lies ahead for him.",
+      "Took two maths-related finals in one day. That was rough.",
     ],
   },
   {
