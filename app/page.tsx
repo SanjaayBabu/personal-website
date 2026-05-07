@@ -216,6 +216,10 @@ export default function Home() {
                   <span className="text-foreground"> philosophy</span>.
                 </p>
 
+                <p className={`${lora.className} text-lg sm:text-xl text-muted-foreground leading-relaxed`}>
+                  I care about applied ethics, international relations, and building happier societies.
+                </p>
+
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "var(--accent-brand)" }}></div>
@@ -224,14 +228,24 @@ export default function Home() {
                   <div>United States | Singapore</div>
                 </div>
 
-                <Link
-                  href="/now"
-                  className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-full border border-border hover:border-muted-foreground/50 transition-all duration-300 w-fit group"
-                >
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-muted-foreground group-hover:text-foreground transition-colors">What I&apos;m working on now</span>
-                  <span className="text-muted-foreground/50 group-hover:translate-x-0.5 transition-transform">→</span>
-                </Link>
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    href="/now"
+                    className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-full border border-border hover:border-muted-foreground/50 transition-all duration-300 w-fit group"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-muted-foreground group-hover:text-foreground transition-colors">What I&apos;m working on now</span>
+                    <span className="text-muted-foreground/50 group-hover:translate-x-0.5 transition-transform">→</span>
+                  </Link>
+                  <Link
+                    href="/duke"
+                    className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-full border border-border hover:border-muted-foreground/50 transition-all duration-300 w-fit group"
+                  >
+                    <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "var(--accent-brand)" }} />
+                    <span className="text-muted-foreground group-hover:text-foreground transition-colors">My Duke journey</span>
+                    <span className="text-muted-foreground/50 group-hover:translate-x-0.5 transition-transform">→</span>
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -363,7 +377,6 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 sm:gap-8">
             <div className="space-y-2">
               <div className="text-sm text-muted-foreground">© 2026 Sanjaay Babu. All rights reserved.</div>
-              <div className="text-xs text-muted-foreground">Built with v0.dev by Sanjaay Babu</div>
             </div>
 
             <div className="flex items-center gap-4">

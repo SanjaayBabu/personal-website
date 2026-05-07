@@ -39,13 +39,15 @@ export default function WritingPreview({
   }
 
   return (
-    <article className="group hover:opacity-95 transition">
+    <article className="group transition">
       <h3 className="text-lg sm:text-xl font-medium">{title}</h3>
       {date && <div className="text-sm text-muted-foreground mb-1">{date}</div>}
-      {summary ? (
-        <p className="text-sm text-muted-foreground">{summary}</p>
-      ) : (
-        <p className="text-sm text-muted-foreground opacity-70">Read post →</p>
+      {summary && (
+        <div className="overflow-hidden max-h-0 group-hover:max-h-20 transition-all duration-300 ease-out">
+          <p className="text-sm text-muted-foreground pt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">
+            {summary}
+          </p>
+        </div>
       )}
     </article>
   );

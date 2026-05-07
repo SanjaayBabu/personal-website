@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Geist } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { PageTransition } from "@/components/page-transition"
 
 const geist = Geist({
   subsets: ["latin"],
@@ -13,7 +14,6 @@ const geist = Geist({
 export const metadata: Metadata = {
   title: "Sanjaay Babu",
   description: "Duke '29 | Econ, Politics & Philosophy",
-  generator: "v0.app",
 }
 
 
@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          {children}
+          <PageTransition>{children}</PageTransition>
         </ThemeProvider>
       </body>
     </html>
