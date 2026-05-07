@@ -144,7 +144,8 @@ export default function AtDuke() {
       if (!container || !track) return
 
       const scrolled = window.scrollY - container.offsetTop
-      const clamped  = Math.max(0, Math.min(N - 1, scrolled / window.innerHeight))
+      const vh = window.innerHeight || 1
+      const clamped  = Math.max(0, Math.min(N - 1, scrolled / vh))
 
       // Slide position — direct DOM, no React re-render
       track.style.transform = `translateX(${-clamped * window.innerWidth}px)`
