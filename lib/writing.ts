@@ -46,7 +46,7 @@ export function getPostMetaFromFile(filename: string): PostMeta {
       meta.title ||
       getSlugFromFilename(filename).replace(/[-_]/g, " "),
     date: meta.date,
-    summary: meta.summary || meta.description || "",
+    summary: meta.summary || meta.description || meta.excerpt || "",
     tags,
   };
 }
