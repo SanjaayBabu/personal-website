@@ -115,8 +115,8 @@ const semesters: Semester[] = [
     term: "Summer 2026",
     subtitle: "TBD",
     accentRGB: [245, 158, 11],   // amber-500
-    // photo: "/duke/summer-2026.jpg",
-    worked: [],
+    photo: "/duke/summer-2026.jpg",
+    worked: ["Interned at the Starling Institute, a thinktank that studies how to make our multilateral institutions function better."],
     read: [],
     fun: [],
   },
@@ -144,7 +144,8 @@ export default function AtDuke() {
       if (!container || !track) return
 
       const scrolled = window.scrollY - container.offsetTop
-      const clamped  = Math.max(0, Math.min(N - 1, scrolled / window.innerHeight))
+      const vh = window.innerHeight || 1
+      const clamped  = Math.max(0, Math.min(N - 1, scrolled / vh))
 
       // Slide position — direct DOM, no React re-render
       track.style.transform = `translateX(${-clamped * window.innerWidth}px)`

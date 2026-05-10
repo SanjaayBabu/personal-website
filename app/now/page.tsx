@@ -62,7 +62,7 @@ const sections = [
     ),
   },
   {
-    label: "Building",
+    label: "Creating",
     color: "text-emerald-500",
     borderColor: "border-emerald-500/30",
     bgColor: "bg-emerald-500/8",

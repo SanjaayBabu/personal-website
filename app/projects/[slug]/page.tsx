@@ -75,7 +75,7 @@ export default async function ProjectPage(props: Props) {
 
           <header className="mb-6">
             <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
-              {meta.role || meta.title || slug.replace(/[-_]/g, " ")}
+              {meta.title || meta.role || slug.replace(/[-_]/g, " ")}
             </h1>
 
             <div className="mt-2 text-sm text-muted-foreground">
