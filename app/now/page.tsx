@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "What I'm working on and thinking about right now.",
 }
 
-const LAST_UPDATED = "April 2026"
+const LAST_UPDATED = "May 2026"
 
 const sections = [
   {
@@ -18,24 +18,10 @@ const sections = [
     content: (
       <div className="space-y-3">
         <p>
-          Freshman spring semester at Duke. I'm taking a range of classes across mathematics, 
-          econometrics, climate change, cultural anthropology and regional studies (European Union). 
-          The challenges of the future are going to require us to think across fields, and that's 
-          exactly what I've been priming myself to do. Still figuring out majors, but that's not urgent: 
-          learning comes first!
+          Learning Russian by using a wonderful Anki deck. I’m taking Russian next semester, and wanted to use all this spare time to familiarize myself with the Cyrillic alphabet and the general logic of the language. 
         </p>
         <p>
-          Outside of formal class, I'm working on Andrew Ng's Deep Learning & Neural Networks course on Coursera 
-          to learn about how AI models work. This is a generationally important technology, and I find the need to
-          go beyond being a consumer / back-seat driver in the AI push. I think the biggest fork in the road ahead
-          is that between people who decide to use AI to replace their thinking, and those who play some kind of active
-          role in the AI conversation - whatever that might look like. 
-        </p>
-        <p>
-          I think my biggest interest within this conversation on AI relates to its ethical development and usage.
-          To that end, I am now pursuing BlueDot Impact's AGI Strategy Course to learn more about potential futures 
-          for AI in the future, and what we can do to ensure responsible development. Complementing my study with BlueDot Impact, 
-          I am also playing around with finetuning models on Unsloth's open source Colab notebooks. 
+          Reading Mishkin’s textbook “The Economics of Money, Banking and Financial Markets” to learn more about monetary policy; I’m preparing for the College Fed Challenge 2026, and so wanted to get a stronger foundation on the economic logic behind Fed decisions.
         </p>
       </div>
     ),
@@ -49,9 +35,8 @@ const sections = [
     content: (
       <ul className="space-y-3">
         {[
-          { title: "Doing Good Better", author: "Will MacAskill" },
-          { title: "Air-Conditioned Nation, Revisited", author: "Cherian George" },
-          { title: "Ethics in the Real World", author: "Peter Singer" },
+          { title: "America, Amèrica : A New History of the New World", author: "Greg Grandin" },
+          { title: "Moral Psychology: Historical and Contemporary Readings", author: "Thomas Nadelhoffer" }
         ].map(({ title, author }) => (
           <li key={title} className="flex items-baseline gap-2">
             <span className="font-medium">{title}</span>
@@ -70,25 +55,13 @@ const sections = [
     content: (
       <div className="space-y-3">
         <p>
-          Working (together with Duke DevLab & a PhD student) on a paper analyzing the effectiveness of supply chain traceability 
-          initiatives in reducing agriculture-driven deforestation in Cotê d'Ivoire. Efforts to reduce deforestation through Coasean
-          bargaining (Pigouvian taxes/subsidies) have not efficiently reduced deforestation due to insufficient pass-through. 
+          Researching multilateral reform pathways as an intern with the Starling Institute, a think-tank based in New York City. Multilateralism is important, but it isn’t working properly right now. Can we do better? 
         </p>
         <p>
-          Supporting the Himalay Unnati Mission (HUM), an Indian NGO that builds partnerships for development in the Indian Himalayan Region. 
-          We're writing a white paper / strategic overview for them, to explain key challenges in the IHR, government approaches, and how HUM
-          is supporting their mission as an implementation partner. I'm impressed at the robustness of a civil society approach in dealing with
-          such fundamental challenges. Perhaps there is merit in a more civil-society oriented approach that can more acutely understand ground
-          realities.
+          Exploring policies to address agricultural-driven deforestation in Cote d’Ivoire; first-best policies such as taxes, subsidies and PES haven’t been effective due to middle-men and challenges in targetting. Can trade policies such as the EU Deforestation Regulation work better? Studying an adjacent question as part of Duke DevLab. 
         </p>
-        <p>
-          On the founding exec of the Duke Southeast Asian Community - an organization intending to build a tighter network of Southeast Asians 
-          at Duke. We're looking into programming and cultural outreach so that each and every Southeast Asian feels right at home at Duke. 
-        </p>
-        <p>
-          Exploring ideas around using dialogue circles & restorative processes to promote well-being centered democracy in Singapore. Getting
-          trained on restorative processes as part of the Duke Kenan Institute of Ethics's ReWork Lab, led by Ada Gregory. I attended a weekend
-          training session last week on restorative facilitation. 
+        <p>        
+          Building “In Pursuit of Happiness”, a website documenting my personal reflections and policy ideas on how we can build happier societies; ideas that I thought about during my gap year prior to college. 
         </p>
       </div>
     ),
@@ -102,10 +75,8 @@ const sections = [
     content: (
       <ul className="space-y-2">
         {[
-          "How to make a moral argument to deal with climate change that compels meaningful action.",
-          "How to ensure that AI is aligned with human values and can actually benefit humanity.",
-          "How developed countries can do more for developing countries, without falling into the trap of paternalism or neocolonialism.",
-          "What education can and should look like in an AI-centered future.",
+          "What will life look like in 2035?",
+          "Might we go back to a world where leisure & the small things matter more?"
         ].map((item) => (
           <li key={item} className="flex items-start gap-3">
             <span className="mt-2 w-1.5 h-1.5 rounded-full bg-violet-500/60 shrink-0" />
