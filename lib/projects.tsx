@@ -11,6 +11,18 @@ export type ProjectsItem = {
 
 export const ProjectsItems: ProjectsItem[] = [
   {
+    slug: "himalay-unnati-mission",
+    id: "himalay-unnati-mission",
+    period: "02/2026 – 05/2026",
+    role: "Ground-up development in the Indian Himalayan Region",
+    org: "Duke Impact Investing Group × Himalay Unnati Mission",
+    summary:
+      "Worked on a white paper highlighting the importance of a community-based approach towards economic development in the Indian Himalayan Region.",
+    details: [],
+    tags: ["Ground-up change", "Development economics"],
+  },
+
+  {
     slug: "green-scorpions",
     id: "green-scorpions",
     period: "06/2024–present",
@@ -54,6 +66,6 @@ export const ProjectsItems: ProjectsItem[] = [
       "Worked with over 100 industry leaders, NGO partners and migrant workers in a Design Thinking Process to co-create solutions to problems in migrant worker dorms today.",
       "Presented research findings and ways forward to industry leaders at a national forum in August 2022.",
     ],
-    tags: ["Futures Thinking", "Social Justice"],  
-}
+    tags: ["Futures Thinking", "Social Justice"],
+  },
 ]
