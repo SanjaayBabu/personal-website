@@ -36,7 +36,8 @@ const sections = [
       <ul className="space-y-3">
         {[
           { title: "America, Amèrica : A New History of the New World", author: "Greg Grandin" },
-          { title: "Moral Psychology: Historical and Contemporary Readings", author: "Thomas Nadelhoffer" }
+          { title: "Moral Psychology: Historical and Contemporary Readings", author: "Thomas Nadelhoffer" },
+          { title: "On Grand Strategy", author: "John Lewis Gaddis" },
         ].map(({ title, author }) => (
           <li key={title} className="flex items-baseline gap-2">
             <span className="font-medium">{title}</span>
@@ -62,6 +63,9 @@ const sections = [
         </p>
         <p>        
           Building “In Pursuit of Happiness”, a website documenting my personal reflections and policy ideas on how we can build happier societies; ideas that I thought about during my gap year prior to college. 
+        </p>
+        <p>
+          Creating an app which helps college students navigate their busy lifestyle while still having enough time to do what they care about.
         </p>
       </div>
     ),

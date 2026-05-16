@@ -142,8 +142,8 @@ export default function Home() {
 
               <div className="space-y-6 max-w-md">
                 <p className={`${lora.className} text-lg sm:text-xl text-muted-foreground leading-relaxed`}>
-                  Freshman @ Duke University (Class of 2029), studying
-                  <span className="text-foreground"> economics</span>, <span className="text-foreground"> politics</span>, and <span className="text-foreground"> philosophy</span>.
+                  Rising sophomore @ Duke University ('29), studying
+                  <span className="text-foreground"> economics</span> and <span className="text-foreground"> philosophy.</span>
                 </p>
                 <p className={`${lora.className} text-lg sm:text-xl text-muted-foreground leading-relaxed`}>
                   I care about applied ethics, international relations, and building happier societies.
@@ -175,7 +175,7 @@ export default function Home() {
               <div className="space-y-4">
                 <div className="text-sm text-muted-foreground font-mono">CURRENTLY</div>
                 <div className="space-y-2">
-                  <div className="text-foreground font-medium">B.S. Economics</div>
+                  <div className="text-foreground font-medium">B.S. Economics and Philosophy</div>
                   <div className="text-muted-foreground">@ Duke University</div>
                   <div className="text-xs text-muted-foreground/60">2025 — 2029</div>
                 </div>
@@ -184,7 +184,7 @@ export default function Home() {
               <div className="space-y-4">
                 <div className="text-sm text-muted-foreground font-mono">FOCUS</div>
                 <div className="flex flex-wrap gap-2">
-                  {["Economic Analysis", "International Relations", "Debating", "Moral & Political Philosophy", "R"].map((skill) => (
+                  {["Economics", "AI Ethics, Governance and Alignment", "Debate", "Moral Philosophy", "Happiness"].map((skill) => (
                     <span key={skill} className="px-3 py-1 text-xs border border-border rounded-full hover:border-muted-foreground transition-colors">
                       {skill}
                     </span>

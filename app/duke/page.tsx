@@ -37,7 +37,7 @@ const semesters: Semester[] = [
     photo: "/duke/f25.jpeg",
     courses: [
       { name: "Freedom and Moral Obligation",       take: "Leaning into uncertainty. You often don't reach many conclusions at the end of philosophy classes, but you totally love the process." },
-      { name: "Just Work: Restorative Justice Models and Applications",  take: "What a class. Forced me to question old paradigms, not just about justice but also what really defines a 'functiona' society." },
+      { name: "Just Work: Restorative Justice Models and Applications",  take: "What a class. Forced me to question old paradigms, not just about justice but also what really defines a 'functional' society." },
       { name: "Econ 101",                         take: "Simple, but a useful spanning overview." },
       { name: "Religion and Politics in Post-Revolutionary Iran",              take: "Developed a much better understanding of contemporary Iran, the Middle East, and the underlying religious arguments behind theocratic regimes. A highly timely class given volatility in the Middle East. Incredible professor." },
     ],
@@ -59,7 +59,7 @@ const semesters: Semester[] = [
   {
     id: "winter-2025",
     term: "Winter 2025",
-    subtitle: "Back home in Singapore",
+    subtitle: "Time with family",
     accentRGB: [139, 92, 246],   // violet-500
     photo: "/duke/winter-2025.jpg",
     worked: [
@@ -79,7 +79,7 @@ const semesters: Semester[] = [
   {
     id: "spring-2026",
     term: "Spring 2026",
-    subtitle: "Upping the ante & taking off",
+    subtitle: "Taking off",
     accentRGB: [16, 185, 129],   // emerald-500
     photo: "/duke/spring-2026.jpg",
     courses: [
@@ -103,7 +103,7 @@ const semesters: Semester[] = [
     ],
     moments: [
       "Popped my knee during a friendly squash game against our sworn rivals, University of North Carolina at Chapel Hill. Spent the next few weeks on crutches, hobbling to class and trying to keep up with coursework while immobile. But had a wonderful group of friends who were my rock and kept me going.",
-      "Had a blast during my weekend trip to San Francisco for the Berkeley IV debate tournament. Emerged Novice Champions, and made great memories. Also, got to spend time with my cousin for the first time in more than a decade, and had a delightful time together.",
+      "Had a blast during my weekend trip to San Francisco for the Berkeley IV debate tournament. Emerged Novice Champions, and made great memories.",
       "Took a trip to Washington, DC as part of the Sanford Policy Pathways program. Visited fascinating organizations such as the US Department of State, United Nations Foundation, National Geographic Society, and more. Met wonderful people, both students and alumni. Was inspired to make my career meaningful, and make my passions come alive. Got new mentors and new intellectual sparring partners.",
       "Watched Duke trounce UNC at the home game. Campus came alive that day. Also got to see Duke take the loss to UConn at the Elite Eight. We'll be back next time.",
       "Attended a public fireside chat with Mr. Pita Limjaroenrat, a prominent Thai opposition figure. Interesting sharing on the nature of Thai politics, and what lies ahead for him.",
