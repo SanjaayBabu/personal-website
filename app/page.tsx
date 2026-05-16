@@ -17,7 +17,7 @@ import { Menu } from "lucide-react"
 
 const navItems = [
   { id: "intro", label: "Home" },
-  { id: "work", label: "Selected Work" },
+  { id: "work", label: "Work" },
   { id: "projects", label: "Projects" },
   { id: "education", label: "Education" },
   { id: "writing", label: "Writing" },
@@ -146,16 +146,8 @@ export default function Home() {
                   <span className="text-foreground"> economics</span> and <span className="text-foreground"> philosophy.</span>
                 </p>
                 <p className={`${lora.className} text-lg sm:text-xl text-muted-foreground leading-relaxed`}>
-                  I care about applied ethics, international relations, and building happier societies.
+                  I care about  <span className="text-foreground"> exploring better multilateral solutions to the world's challenges</span>, <span className="text-foreground"> building happier societies</span>, and <span className="text-foreground"> exploring applied ethical questions.</span> 
                 </p>
-
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "var(--accent-brand)" }} />
-                    Available for internships
-                  </div>
-                  <div>United States | Singapore</div>
-                </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Link href="/now" className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-full border border-border hover:border-muted-foreground/50 transition-all group">

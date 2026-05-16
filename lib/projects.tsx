@@ -25,7 +25,7 @@ export const ProjectsItems: ProjectsItem[] = [
   {
     slug: "green-scorpions",
     id: "green-scorpions",
-    period: "06/2024–present",
+    period: "05/2024–08/2025",
     role: "Sustainability in the Singapore Army",
     org: "Singapore Armed Forces",
     summary: "Founded a project team aimed to mitigate incineration of used plastics in the Army.",
