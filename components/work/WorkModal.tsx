@@ -1,3 +1,7 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { createPortal } from "react-dom"
 import { WorkItem } from "@/lib/work"
 
 export function WorkModal({
@@ -7,14 +11,18 @@ export function WorkModal({
   item: WorkItem
   onClose: () => void
 }) {
-  return (
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+  if (!mounted) return null
+
+  const node = (
     <div
-    className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center animate-fade-in-up"
-    onClick={onClose}
+      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center animate-fade-in-up"
+      onClick={onClose}
     >
-      <div 
-      className="bg-background max-w-2xl w-full p-8 rounded-lg space-y-6 relative"
-      onClick={(e) => e.stopPropagation()}
+      <div
+        className="bg-card text-card-foreground border border-border shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-8 rounded-lg space-y-6 relative"
+        onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
@@ -36,4 +44,6 @@ export function WorkModal({
       </div>
     </div>
   )
+
+  return createPortal(node, document.body)
 }
