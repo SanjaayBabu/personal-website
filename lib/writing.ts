@@ -16,6 +16,19 @@ export type PostMeta = {
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "writing");
 
+function normalizeTags(raw: unknown): string[] | undefined {
+  if (!raw) return undefined;
+  if (Array.isArray(raw)) {
+    const result = raw.map((t: any) => String(t).trim()).filter(Boolean);
+    return result.length ? result : undefined;
+  }
+  if (typeof raw === "string") {
+    const result = raw.split(",").map((s) => s.trim()).filter(Boolean);
+    return result.length ? result : undefined;
+  }
+  return undefined;
+}
+
 export function getAllPostFiles() {
   if (!fs.existsSync(CONTENT_DIR)) return [];
   return fs.readdirSync(CONTENT_DIR).filter((f) => /\.mdx?$/.test(f));
@@ -30,16 +43,7 @@ export function getPostMetaFromFile(filename: string): PostMeta {
   const raw = fs.readFileSync(filePath, "utf8");
   const parsed = matter(raw);
   const meta = parsed.data || {};
-  // Normalize tags: accept string or array; always return array or undefined
-  let tags: string[] | undefined = undefined;
-  if (meta.tags) {
-    if (Array.isArray(meta.tags)) {
-      tags = meta.tags.map((t: any) => String(t).trim()).filter(Boolean);
-    } else if (typeof meta.tags === "string") {
-      // allow comma-separated string in frontmatter
-      tags = meta.tags.split(",").map((s: string) => s.trim()).filter(Boolean);
-    }
-  }
+  const tags = normalizeTags(meta.tags);
   return {
     slug: getSlugFromFilename(filename),
     title:
@@ -109,15 +113,7 @@ export async function getPostBySlug(slug: string) {
   const r = readRawPost(slug);
   if (!r) return null;
   const rendered = await renderMarkdownToHtml(r.raw, slug);
-  // normalize tags like getPostMetaFromFile did
-  let tags: string[] | undefined = undefined;
-  if (r.meta?.tags) {
-    if (Array.isArray(r.meta.tags)) {
-      tags = r.meta.tags.map((t: any) => String(t).trim()).filter(Boolean);
-    } else if (typeof r.meta.tags === "string") {
-      tags = r.meta.tags.split(",").map((s: string) => s.trim()).filter(Boolean);
-    }
-  }
+  const tags = normalizeTags(r.meta?.tags);
   return {
     html: rendered,
     meta: {

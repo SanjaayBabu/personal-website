@@ -242,27 +242,6 @@
   opacity: 0.85;
 }
 
-/* ---- vertical nav label polish ---- */
-.vertical-nav-label {
-  transition: opacity 180ms ease, transform 180ms ease;
-  transform-origin: left center;
-}
-
-/* optional little subtle background for label hover */
-.vertical-nav-label-bg {
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(0,0,0,0.04);
-  padding: 4px 8px;
-  border-radius: 8px;
-}
-
-/* Dark-mode adjustments — your site toggles .dark on html already */
-.dark .vertical-nav-label-bg {
-  background: rgba(0,0,0,0.75);
-  border-color: rgba(255,255,255,0.05);
-}
-
 /* quick MDX/prose fallback — paste into globals.css */
 .prose h1 {
   font-size: 2.25rem; /* 36px */

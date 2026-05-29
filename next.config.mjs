@@ -9,7 +9,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  serverExternalPackages: ["remark", "remark-html", "remark-gfm", "unified", "vfile", "@react-email/render", "@react-email/components"],
+  serverExternalPackages: ["remark", "remark-html", "remark-gfm", "unified", "vfile"],
   async rewrites() {
     return [
       {
