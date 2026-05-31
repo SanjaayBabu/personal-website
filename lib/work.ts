@@ -20,7 +20,8 @@ export const workItems: WorkItem[] = [
       "Following UN engagements relating to the selection of the next Secretary-General, setting the agenda and expectations for the next SG.",
       "Integrating AI and creating bespoke software tools for the organization in order to save time and streamline processes for the Institute.",],
     tags: ["Policy Research & Advocacy", "International Development", "AI integration and automation"],
-  }
+  },
+  
   {
     id: "development-economics",
     period: "02/2026–present",
