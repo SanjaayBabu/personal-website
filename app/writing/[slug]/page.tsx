@@ -1,8 +1,8 @@
 // app/writing/[slug]/page.tsx
-export const dynamic = "force-dynamic";
-
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { readRawPost, getAllPostsMeta } from "@/lib/writing";
+import { siteConfig } from "@/lib/site";
 import { serialize } from "next-mdx-remote/serialize";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { visit } from "unist-util-visit";
@@ -77,6 +77,44 @@ function remarkRewriteImages() {
   };
 }
 
+export async function generateStaticParams() {
+  return getAllPostsMeta().map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { slug } = await props.params;
+  const raw = readRawPost(slug);
+
+  if (!raw) {
+    return { title: "Not found" };
+  }
+
+  const meta = raw.meta || {};
+  const title = meta.title || slug.replace(/[-_]/g, " ");
+  const description =
+    meta.summary || meta.excerpt || meta.description || siteConfig.description;
+  const url = `${siteConfig.url}/writing/${slug}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title,
+      description,
+      publishedTime: meta.date || undefined,
+      authors: [meta.author || siteConfig.author],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
+
 export default async function PostPage(props: Props) {
   const { slug } = await props.params;
 
@@ -124,8 +162,27 @@ export default async function PostPage(props: Props) {
     )
     .slice(0, 3);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: meta.title || (slug ? slug.replace(/[-_]/g, " ") : ""),
+    description: meta.summary || meta.excerpt || meta.description || siteConfig.description,
+    datePublished: meta.date || undefined,
+    author: {
+      "@type": "Person",
+      name: meta.author || siteConfig.author,
+      url: siteConfig.url,
+    },
+    url: `${siteConfig.url}/writing/${slug}`,
+    mainEntityOfPage: `${siteConfig.url}/writing/${slug}`,
+  };
+
   return (
     <main className="px-4 sm:px-6 lg:px-8 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <ReadingProgress />
       <div className="relative mx-auto max-w-7xl">
         {headings.length > 0 && (

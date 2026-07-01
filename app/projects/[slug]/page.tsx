@@ -1,4 +1,5 @@
 // app/projects/[slug]/page.tsx
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import fs from "fs";
 import path from "path";
@@ -8,6 +9,7 @@ import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
 import { visit } from "unist-util-visit";
 import BackToProjects from "@/components/projects/BackToProjects";
+import { siteConfig } from "@/lib/site";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "projects");
 
@@ -41,6 +43,37 @@ export async function generateStaticParams() {
   if (!fs.existsSync(CONTENT_DIR)) return [];
   const files = fs.readdirSync(CONTENT_DIR).filter((f) => /\.mdx?$/.test(f));
   return files.map((f) => ({ slug: f.replace(/\.mdx?$/, "") }));
+}
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { slug } = await props.params;
+  const raw = readRawProject(slug);
+
+  if (!raw) {
+    return { title: "Not found" };
+  }
+
+  const meta: any = raw.meta || {};
+  const title = meta.title || slug.replace(/[-_]/g, " ");
+  const description = meta.summary || meta.description || siteConfig.description;
+  const url = `${siteConfig.url}/projects/${slug}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
 }
 
 export default async function ProjectPage(props: Props) {
