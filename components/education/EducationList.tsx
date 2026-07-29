@@ -1,8 +1,11 @@
 // components/projects/ProjectsList.tsx
 import React, { useCallback, useEffect } from "react";
+import { Lora } from "next/font/google";
 import EducationItem from "./EducationItem";
 import EducationModal from "./EducationModal";
 import { EducationItems } from "@/lib/education";
+
+const lora = Lora({ subsets: ["latin"], weight: ["400", "600"] });
 
 export function EducationList({
   onSelect,
@@ -36,7 +39,7 @@ export function EducationList({
   return (
     <div className="space-y-12">
       <div className="flex justify-between items-end">
-        <h2 className="text-3xl sm:text-4xl font-light">Education</h2>
+        <h2 className={`${lora.className} text-3xl sm:text-4xl font-light`}>Education</h2>
         <span className="text-sm text-muted-foreground">2017–2029</span>
       </div>
 

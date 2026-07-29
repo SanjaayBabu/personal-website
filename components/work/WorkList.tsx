@@ -1,5 +1,8 @@
+import { Lora } from "next/font/google"
 import { workItems } from "@/lib/work"
 import { WorkItem } from "./WorkItem"
+
+const lora = Lora({ subsets: ["latin"], weight: ["400", "600"] })
 
 export function WorkList({
   onSelect,
@@ -9,7 +12,7 @@ export function WorkList({
   return (
     <div className="space-y-12">
       <div className="flex justify-between items-end">
-        <h2 className="text-3xl sm:text-4xl font-light">Selected Work</h2>
+        <h2 className={`${lora.className} text-3xl sm:text-4xl font-light`}>Selected Work</h2>
         <span className="text-sm text-muted-foreground">2022–2025</span>
       </div>
     <div className="space-y-4">

@@ -1,5 +1,6 @@
 // app/projects/[slug]/page.tsx
 import type { Metadata } from "next";
+import { Lora } from "next/font/google";
 import { notFound } from "next/navigation";
 import fs from "fs";
 import path from "path";
@@ -12,6 +13,8 @@ import BackToProjects from "@/components/projects/BackToProjects";
 import { siteConfig } from "@/lib/site";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "projects");
+
+const lora = Lora({ subsets: ["latin"], weight: ["400", "600"] });
 
 function remarkRewriteProjectImages() {
   return (tree: any) => {
@@ -107,7 +110,7 @@ export default async function ProjectPage(props: Props) {
           <BackToProjects />
 
           <header className="mb-6">
-            <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
+            <h1 className={`${lora.className} text-4xl sm:text-5xl font-semibold leading-tight`}>
               {meta.title || meta.role || slug.replace(/[-_]/g, " ")}
             </h1>
 

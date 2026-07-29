@@ -2,10 +2,13 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { Lora } from "next/font/google";
 import WritingList from "./WritingList";
 import MailingListSignup from "./MailingListSignup";
 import type { PostMeta } from "@/lib/writing";
 import { useRouter, useSearchParams } from "next/navigation";
+
+const lora = Lora({ subsets: ["latin"], weight: ["400", "600"] });
 
 /**
  * WritingSection with URL persistence, tag filtering, and pagination.
@@ -130,7 +133,7 @@ export default function WritingSection() {
           <h2
             id="writing-heading"
             tabIndex={-1}
-            className="text-3xl sm:text-4xl font-light"
+            className={`${lora.className} text-3xl sm:text-4xl font-light`}
           >
             Writing
           </h2>

@@ -1,5 +1,6 @@
 // app/writing/[slug]/page.tsx
 import type { Metadata } from "next";
+import { Lora } from "next/font/google";
 import { notFound } from "next/navigation";
 import { readRawPost, getAllPostsMeta } from "@/lib/writing";
 import { siteConfig } from "@/lib/site";
@@ -16,6 +17,8 @@ import ReadingProgress from "@/components/writing/ReadingProgress";
 import TableOfContents from "@/components/writing/TableOfContents";
 import remarkGfm from "remark-gfm";
 import { slugify, type Heading } from "@/lib/headings";
+
+const lora = Lora({ subsets: ["latin"], weight: ["400", "600"] });
 
 function stripMarkdown(text: string): string {
   return text
@@ -197,7 +200,7 @@ export default async function PostPage(props: Props) {
             <BackToHome />
 
             <header className="mb-6">
-              <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
+              <h1 className={`${lora.className} text-4xl sm:text-5xl font-semibold leading-tight`}>
                 {meta.title || (slug ? slug.replace(/[-_]/g, " ") : "")}
               </h1>
 
