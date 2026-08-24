@@ -1,8 +1,5 @@
 import Link from "next/link"
 import { Metadata } from "next"
-import { Lora } from "next/font/google"
-
-const lora = Lora({ subsets: ["latin"], weight: ["400", "600"] })
 
 export const metadata: Metadata = {
   title: "Now — Sanjaay Babu",
@@ -109,7 +106,7 @@ export default function NowPage() {
       {/* Header */}
       <div className="mb-14">
         <div className="flex items-center gap-3 mb-3">
-          <h1 className={`${lora.className} text-3xl sm:text-4xl font-bold`}>Now</h1>
+          <h1 className="font-serif text-3xl sm:text-4xl font-bold">Now</h1>
           <span className="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full font-medium">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
             Live

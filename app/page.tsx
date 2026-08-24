@@ -12,27 +12,14 @@ import { ProjectsList } from "@/components/projects/ProjectsList"
 import { EducationList } from "@/components/education/EducationList"
 import React, { Suspense } from "react";
 import WritingSection from "@/components/writing/WritingSection";
-import { Drawer, DrawerContent, DrawerTrigger, DrawerClose, DrawerTitle } from "@/components/ui/drawer"
-import { Menu } from "lucide-react"
-
-const navItems = [
-  { id: "intro", label: "Home" },
-  { id: "work", label: "Work" },
-  { id: "projects", label: "Projects" },
-  { id: "education", label: "Education" },
-  { id: "writing", label: "Writing" },
-  { id: "connect", label: "Contact" },
-]
 
 export default function Home() {
   const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const isDark = mounted && resolvedTheme === "dark"
-  const [activeSection, setActiveSection] = useState("")
-  const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const sectionsRef = useRef<(HTMLElement | null)[]>([])
   const [activeWork, setActiveWork] = useState<WorkItem | null>(null)
-  
+
   useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
@@ -41,7 +28,6 @@ export default function Home() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("animate-fade-in-up")
-            setActiveSection(entry.target.id)
           }
         })
       },
@@ -59,64 +45,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative selection:bg-blue-100 dark:selection:bg-blue-900">
-      <div className="absolute inset-0 pointer-events-none">
-        <nav className="sticky top-1/2 left-10 z-50 hidden lg:block -translate-y-1/2 w-fit pointer-events-auto">
-          <ul className="flex flex-col gap-4 items-start">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.id
-              return (
-                <li key={item.id} className="relative group">
-                  <button
-                    onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" })}
-                    className="flex items-center gap-4 rounded-full px-2 py-1 transition-all"
-                  >
-                    <span
-                      className={`inline-block rounded-full transition-all duration-300 ${
-                        isActive ? "w-3 h-3 ring-2" : "w-2 h-2 bg-muted-foreground/40"
-                      }`}
-                      style={isActive ? {
-                        backgroundColor: "var(--accent-brand)",
-                        boxShadow: "0 0 0 2px color-mix(in oklch, var(--accent-brand) 25%, transparent)"
-                      } : {}}
-                    />
-                    <span className={`ml-1 text-sm font-medium transition-colors ${isActive ? "text-foreground" : "text-muted-foreground/60 group-hover:text-muted-foreground"}`}>
-                      {item.label}
-                    </span>
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
-        </nav>
-      </div>
-
-      {/* Mobile Nav */}
-      <div className="fixed bottom-6 left-6 z-50 lg:hidden">
-        <Drawer open={mobileNavOpen} onOpenChange={setMobileNavOpen} direction="bottom">
-          <DrawerTrigger asChild>
-            <button className="flex items-center gap-2 px-4 py-3 bg-background border border-border rounded-full shadow-lg">
-              <Menu className="w-4 h-4" />
-              <span className="text-xs">{navItems.find(i => i.id === activeSection)?.label ?? "Menu"}</span>
-            </button>
-          </DrawerTrigger>
-          <DrawerContent>
-            <DrawerTitle className="sr-only">Navigation</DrawerTitle>
-            <div className="px-4 pt-2 pb-8 space-y-1">
-              {navItems.map((item) => (
-                <DrawerClose asChild key={item.id}>
-                  <button
-                    onClick={() => setTimeout(() => document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" }), 300)}
-                    className={`w-full flex items-center justify-between px-4 py-4 rounded-lg ${activeSection === item.id ? "bg-foreground text-background" : "hover:bg-muted"}`}
-                  >
-                    <span className="text-base font-medium">{item.label}</span>
-                  </button>
-                </DrawerClose>
-              ))}
-            </div>
-          </DrawerContent>
-        </Drawer>
-      </div>
-
       <main className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16">
         {/* Changed to h-[100dvh] to lock the viewport size exactly */}
         <header
@@ -129,7 +57,7 @@ export default function Home() {
             <div className="lg:col-span-3 space-y-6 sm:space-y-8">
               <div className="space-y-3 sm:space-y-2">
                 <div className="text-sm text-muted-foreground font-mono tracking-wider">PORTFOLIO / 2026</div>
-                <h1 className={`${lora.className} text-5xl sm:text-6xl lg:text-7xl font-normal tracking-tight`}>
+                <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-normal tracking-tight">
                   <span className="text-gradient-brand animate-word-rise" style={{ animationDelay: "0.15s" }}>Sanjaay</span>
                   <br />
                   <span className="text-muted-foreground" aria-label="Babu">
@@ -209,7 +137,7 @@ export default function Home() {
         <section id="connect" ref={(el) => { sectionsRef.current[5] = el }} className="py-20 sm:py-32 opacity-0">
           <div className="grid lg:grid-cols-2 gap-12 sm:gap-16">
             <div className="space-y-6 sm:space-y-8">
-              <h2 className="text-3xl sm:text-4xl font-light">Let&apos;s Connect</h2>
+              <h2 className="font-serif text-3xl sm:text-4xl font-light">Let&apos;s Connect</h2>
               <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
                 Always interested in new opportunities and conversations about anything under the sun.
               </p>

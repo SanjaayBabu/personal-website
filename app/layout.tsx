@@ -1,15 +1,22 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist } from "next/font/google"
+import { Geist, Source_Serif_4 } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PageTransition } from "@/components/page-transition"
+import { Header } from "@/components/Header"
 import { siteConfig } from "@/lib/site"
 
 const geist = Geist({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-geist",
+})
+
+const sourceSerif = Source_Serif_4({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-source-serif",
 })
 
 export const metadata: Metadata = {
@@ -57,8 +64,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className={`${geist.variable} ${sourceSerif.variable} font-sans`}>
         <ThemeProvider>
+          <Header />
           <PageTransition>{children}</PageTransition>
         </ThemeProvider>
       </body>

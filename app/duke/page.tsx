@@ -1,11 +1,8 @@
 "use client"
 
-import { Lora } from "next/font/google"
 import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
-
-const lora = Lora({ subsets: ["latin"], weight: ["400", "600"] })
 
 type Course   = { name: string; take?: string }
 type OrgEntry = { name: string; role: string; note?: string }
@@ -196,7 +193,7 @@ export default function AtDuke() {
               ← Home
             </Link>
             <span className="text-sm text-muted-foreground">
-              <span className={`${lora.className} font-semibold text-foreground`}>At Duke</span>
+              <span className="font-serif font-semibold text-foreground">At Duke</span>
               {" "}— Class of 2029
             </span>
           </div>
@@ -221,7 +218,7 @@ export default function AtDuke() {
                     {/* Semester heading */}
                     <div>
                       <h2
-                        className={`${lora.className} text-4xl sm:text-6xl font-semibold leading-none mb-1`}
+                        className="font-serif text-4xl sm:text-6xl font-semibold leading-none mb-1"
                         style={{ color: accentCSS }}
                       >
                         {sem.term}
@@ -250,7 +247,7 @@ export default function AtDuke() {
                         ) : (
                           <div className="flex flex-col items-center gap-2 select-none px-6 text-center">
                             <span
-                              className={`${lora.className} text-[6rem] sm:text-[9rem] font-semibold leading-none`}
+                              className="font-serif text-[6rem] sm:text-[9rem] font-semibold leading-none"
                               style={{ color: `rgba(${r},${g},${b},0.2)` }}
                             >
                               {sem.term.split(" ")[1]}

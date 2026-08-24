@@ -1,8 +1,5 @@
 import Link from "next/link"
 import { Metadata } from "next"
-import { Lora } from "next/font/google"
-
-const lora = Lora({ subsets: ["latin"], weight: ["400", "600"] })
 
 export const metadata: Metadata = {
   title: "Library — Sanjaay Babu",
@@ -60,7 +57,7 @@ export default function LibraryPage() {
 
       {/* Header */}
       <div className="mb-14">
-        <h1 className={`${lora.className} text-3xl sm:text-4xl font-bold mb-3`}>Library</h1>
+        <h1 className="font-serif text-3xl sm:text-4xl font-bold mb-3">Library</h1>
         <p className="text-sm text-muted-foreground">
           Books I've read and found worth recommending · Updated {LAST_UPDATED}
         </p>

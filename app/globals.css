@@ -2,14 +2,14 @@
 @import "tw-animate-css";
 
 :root {
-  --accent-brand: oklch(0.48 0.12 254);
-  --background: oklch(1 0 0);
+  --accent-brand: oklch(0.32 0.09 260);
+  --background: oklch(0.98 0.008 85);
   --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
+  --card: oklch(0.98 0.008 85);
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.98 0.008 85);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: oklch(0.32 0.09 260);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -75,6 +75,8 @@
 }
 
 @theme inline {
+  --font-sans: var(--font-geist);
+  --font-serif: var(--font-source-serif);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -202,6 +204,7 @@
 .prose h1,
 .prose h2,
 .prose h3 {
+  font-family: var(--font-serif);
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
   line-height: 1.2;
