@@ -25,7 +25,7 @@ export function WorkItem({
 
           <div className="lg:col-span-7 space-y-1">
             <div className="flex items-start gap-4">
-              <h3 className="text-base md:text-lg font-semibold text-foreground">
+              <h3 className="text-base md:text-lg font-semibold text-accent-brand">
                 {item.role}
               </h3>
               <span className="ml-auto opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all text-muted-foreground">

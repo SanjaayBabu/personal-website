@@ -27,7 +27,7 @@ export function EducationItem({
       <div className="flex items-start gap-6">
         {/* LEFT: main content */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-medium">{item.school}</h3>
+          <h3 className="text-lg font-medium text-accent-brand">{item.school}</h3>
           {item.location ? (
             <div className="text-sm text-muted-foreground mt-1">{item.location}</div>
           ) : null}
