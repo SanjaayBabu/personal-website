@@ -11,6 +11,17 @@ export type ProjectsItem = {
 
 export const ProjectsItems: ProjectsItem[] = [
   {
+    slug: "Tempo",
+    id: "Tempo",
+    period: "06/2026-08/2026",
+    role: "Tempo: Productivity App for Students & Young Adults",
+    org: "Personal App Development Project",
+    summary:
+      "Built an app to help students & young adults allocate enough time to the things they care about.",
+    details: [],
+    tags: ["App development", "Productivity"],
+  },
+  {
     slug: "himalay-unnati-mission",
     id: "himalay-unnati-mission",
     period: "02/2026 – 05/2026",
@@ -21,7 +32,6 @@ export const ProjectsItems: ProjectsItem[] = [
     details: [],
     tags: ["Ground-up change", "Development economics"],
   },
-
   {
     slug: "green-scorpions",
     id: "green-scorpions",

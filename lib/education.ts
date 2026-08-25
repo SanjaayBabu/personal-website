@@ -21,7 +21,8 @@ export const EducationItems: EducationItem[] = [
     details: [
         "Fall 2025 Coursework: Economic Fundamentals, Theory of Freedom & Moral Obligations (Philosophy), Theory & Practice of Restorative Justice, Religion and Politics in Post-Revolutionary Iran.",
         "Spring 2026 Coursework: Foundations of Econometrics, Calculus II, Climate Change for Future Leaders, Writing (Wisdom and Comparative Rhetoric), Development and Africa, European Union: Future or Fading?",
-        "Extracurriculars: Debate Society, Alexander Hamilton Society (international relations), Duke Fed Challenge Team (macroeconomic modelling), Duke Human Rights Centre Student Advisory Board, Duke Singapore Students Association (Vice-President)",
+        "Fall 2026 Coursework: Intermediate Microeconomics, Macro Analytics, Moral Psychology, Chinese Law & Policy (Research), Multivariable Calculus, Experiments in Ethical Living",
+        "Extracurriculars: Debate, Program in American Grand Strategy, Duke Fed Challenge (monetary policy & macroeconomics), Duke Impact Investment Group (Consulting), Duke Southeast Asian Community (Founding Member), Duke Singapore Students Association (Vice-President)",
     ],
   },
 
