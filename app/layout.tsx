@@ -1,15 +1,16 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist } from "next/font/google"
+import { Lora } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PageTransition } from "@/components/page-transition"
 import { siteConfig } from "@/lib/site"
 
-const geist = Geist({
+const lora = Lora({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-geist",
+  variable: "--font-lora",
 })
 
 export const metadata: Metadata = {
@@ -57,7 +58,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className={`${lora.className} antialiased`}>
         <ThemeProvider>
           <PageTransition>{children}</PageTransition>
         </ThemeProvider>
