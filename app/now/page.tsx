@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "What I'm working on and thinking about right now.",
 }
 
-const LAST_UPDATED = "May 2026"
+const LAST_UPDATED = "August 2026"
 
 const sections = [
   {
@@ -20,12 +20,10 @@ const sections = [
     dotColor: "bg-blue-500",
     content: (
       <div className="space-y-3">
-        <p>
-          Learning Russian by using a wonderful Anki deck. I’m taking Russian next semester, and wanted to use all this spare time to familiarize myself with the Cyrillic alphabet and the general logic of the language. 
-        </p>
-        <p>
-          Reading Mishkin’s textbook “The Economics of Money, Banking and Financial Markets” to learn more about monetary policy; I’m preparing for the College Fed Challenge 2026, and so wanted to get a stronger foundation on the economic logic behind Fed decisions.
-        </p>
+        <p> Strengthening my Economics foundation, through courses on microeconomics, macro analytics and multivariable calculus. </p>
+        <p> Learning Russian, a language which is challenging but I think promises to be highly rewarding.</p>
+        <p> Taking a course on "Experiments in Ethical Living". The class is still being baked, but I think it promises to be interesting.</p>
+        <p> Taking a research course on Chinese law & policy. This course is offered by Duke Law School.</p>
       </div>
     ),
   },
@@ -38,9 +36,8 @@ const sections = [
     content: (
       <ul className="space-y-3">
         {[
-          { title: "America, Amèrica : A New History of the New World", author: "Greg Grandin" },
-          { title: "Moral Psychology: Historical and Contemporary Readings", author: "Thomas Nadelhoffer" },
-          { title: "On Grand Strategy", author: "John Lewis Gaddis" },
+          { title: "Steve Jobs", author: "Walter Isaacson" },
+          { title: "The Fate of the Day", author: "Rick Atkinson" },
         ].map(({ title, author }) => (
           <li key={title} className="flex items-baseline gap-2">
             <span className="font-medium">{title}</span>
@@ -58,17 +55,14 @@ const sections = [
     dotColor: "bg-emerald-500",
     content: (
       <div className="space-y-3">
-        <p>
-          Researching multilateral reform pathways as an intern with the Starling Institute, a think-tank based in New York City. Multilateralism is important, but it isn’t working properly right now. Can we do better? 
-        </p>
-        <p>
-          Exploring policies to address agricultural-driven deforestation in Cote d’Ivoire; first-best policies such as taxes, subsidies and PES haven’t been effective due to middle-men and challenges in targetting. Can trade policies such as the EU Deforestation Regulation work better? Studying an adjacent question as part of Duke DevLab. 
-        </p>
         <p>        
           Building “In Pursuit of Happiness”, a website documenting my personal reflections and policy ideas on how we can build happier societies; ideas that I thought about during my gap year prior to college. 
         </p>
         <p>
-          Creating an app which helps college students navigate their busy lifestyle while still having enough time to do what they care about.
+          Building community amongst Southeast Asians at Duke University, as a founding member of the Southeast Asian Community @ Duke.
+        </p>
+        <p>
+          Hoping to build some kind of tool to help students navigate difficult decisions around using AI in their educational pursuits.
         </p>
       </div>
     ),
@@ -82,8 +76,8 @@ const sections = [
     content: (
       <ul className="space-y-2">
         {[
-          "What will life look like in 2035?",
-          "Might we go back to a world where leisure & the small things matter more?"
+          "What is the point of learning in an AI-forward world? How can we communicate this message to people?",
+          "What is burnout? Why do so many people experience it? Is there a solution to it, and is tech a part of it?"
         ].map((item) => (
           <li key={item} className="flex items-start gap-3">
             <span className="mt-2 w-1.5 h-1.5 rounded-full bg-violet-500/60 shrink-0" />

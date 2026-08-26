@@ -116,9 +116,17 @@ const semesters: Semester[] = [
     subtitle: "TBD",
     accentRGB: [245, 158, 11],   // amber-500
     photo: "/duke/summer-2026.jpg",
-    worked: ["Interned at the Starling Institute, a thinktank that studies how to make our multilateral institutions function better."],
-    read: [],
-    fun: [],
+    worked:[
+      "Interned at the Starling Institute, a thinktank that studies how to make our multilateral institutions function better.",
+      "Built Tempo, an app to help students manage their time better and to allocate enough time to the things they care about.",
+      "Took some beautiful photos on my Canon EOS 700D, a camera from 2014 which still has incredible charm and colors."
+    ],
+    read: [
+      "Catastrophe Ethics: How to Choose Well in a World of Tough Choices by Travis Rieder",
+    ],
+    fun: [
+      "Spent time in Singapore, home sweet home.",
+    ],
   },
 ]
 // ─────────────────────────────────────────────────────────────────────────────
