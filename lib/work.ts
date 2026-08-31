@@ -10,30 +10,57 @@ export type WorkItem = {
 
 export const workItems: WorkItem[] = [
   {
+    id: "law-research-assistant",
+    period: "08/2026-present",
+    role: "Research Assistant",
+    org: "Duke Law School",
+    summary: "Part of a interdisciplinary research team building an open-access portal consolidating research on Chinese law & policy.",
+    details: [
+      "Starting a research position with Duke Law school seeking to build an open source portal consolidating scholarship on Chinese law & public policy using AI-human teaming." 
+    ],
+    tags: ["Research", "AI"],
+  },
+
+  {
+    id: "ethics-teaching-assistant",
+    period: "08/2026-present",
+    role: "Teaching Assistant",
+    org: "Duke University (Kenan Institute of Ethics)",
+    summary: "Facilitating theoretical & practical conversations surrounding the ethics of justice. What is the ethical status of current punitive justice systems? Are there ways to build a better system?",
+    details: [
+      "Training 15 students on restorative practices as applied to criminal justice, preventative justice & addressing structural issues.",
+      "Facilitating rigorous conversations about the ethical foundations of justice systems, and how that informs the ways we should think about justice.",
+      "Reading through & responding to student prose essays & reflections relating to the themes of this class."
+    ],
+    tags: ["Teaching", "Ethical Inquiry", "Facilitation"],
+  },
+
+  {
     id: "multilateral-reform",
-    period: "05/2026-present",
+    period: "05/2026-07/2026",
     role: "Undergraduate Policy Fellow",
     org: "Starling Institute",
     summary: "Research, staffing and tech development for an organization that seeks to enhance the state of global cooperation by building coalitions around key global issues.",
     details: [
-      "Supporting the UN80 reform process by drafting analytical memos to support Member State partners",
-      "Following UN engagements relating to the selection of the next Secretary-General, setting the agenda and expectations for the next SG.",
+      "Supported the UN80 reform process by drafting analytical memos to support Member State partners.",
+      "Tracked UN engagements relating to the selection of the next Secretary-General, setting the agenda and expectations for the next SG.",
+      "Provided logistics support & leadership for three Starling Institute convenings with Member States representatives (including Permanent Representatives), civil society and academics.",
       "Integrating AI and creating bespoke software tools for the organization in order to save time and streamline processes for the Institute.",],
-    tags: ["Policy Research & Advocacy", "International Development", "AI integration and automation"],
+    tags: ["Policy Research", "AI"],
   },
   
   {
     id: "development-economics",
-    period: "02/2026–present",
+    period: "02/2026-06/2026",
     role: "Research Assistant",
-    org: "DevLab @ Duke University",
+    org: "Duke University Development Economics Lab",
     summary:
-      "Working on a research project to understand the effects of environmental trade policy on agriculture-driven deforestation",
+      "Worked on a research project to understand the effects of environmental trade policy on agriculture-driven deforestation",
     details: [
       "Deforestation is normatively bad. But what do you do when people who deforest for agricultural purposes are often poor smallholders?",
-      "Analysing papers across development economics, environmental economics, and political economy to understand the effectiveness of trade policies, including the EU Deforestation Regulation, in reducing deforestation while minimizing harm to smallholders.",
+      "Analysed papers across development economics, environmental economics, and political economy to understand the effectiveness of trade policies, including the EU Deforestation Regulation, in reducing deforestation while minimizing harm to smallholders.",
     ],
-    tags: ["Economic Development", "Quantitative Research", "Environmental Policy"],
+    tags: ["Research", "Development Economics", "Environmental Policy"],
   },
 
   {
@@ -52,7 +79,7 @@ export const workItems: WorkItem[] = [
     tags: ["Strategic Foresight", "Policy Research", "Qualitative Research"],
   },
 
-      {
+  {
     id: "legislative-assistant",
     period: "04/2024-05/2025",
     role: "Legislative Assistant",
@@ -66,22 +93,6 @@ export const workItems: WorkItem[] = [
       "Attended stakeholder meetings with civil society organizations to support MP's advocacy work in Parliament.", 
     ],
     tags: ["Legislative Research", "Civic Engagement", "Advocacy"],
-  },
-
-    {
-    id: "asia-analyst",
-    period: "03/2023-04/2024",
-    role: "Asia Analyst (Voluntary)",
-    org: "Human Rights Measurement Initiative",
-    summary:
-      "Analysed human rights data to understand trends in Central, Southeast, and East Asia.",
-    details: [
-      "Utilized R and Excel to clean and visualise proprietary HRMI datasets",
-      "Packaged data analysis to tell a broader human rights story, to be used by human rights defenders in countries of study",
-      "Trained in cybersecurity measures to protect human rights defenders in high-risk environments",
-      "Improved cross-cultural communication skills by collaborating with a diverse, international team",
-    ],
-    tags: ["Quantitative Research", "Human Rights"],
   },
 
   {
@@ -113,6 +124,4 @@ export const workItems: WorkItem[] = [
     ],
     tags: ["Grit", "Leadership", "Organisation"],
   },
-
-
 ]
