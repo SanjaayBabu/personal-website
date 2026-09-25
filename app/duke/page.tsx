@@ -196,13 +196,7 @@ export default function AtDuke() {
           <div ref={bgRef} className="absolute inset-0 pointer-events-none transition-none" />
 
           {/* Top bar */}
-          <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between px-6 sm:px-10 py-5 pointer-events-none">
-            <Link
-              href="/"
-              className="pointer-events-auto text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              ← Home
-            </Link>
+          <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-end px-6 sm:px-10 py-5 pointer-events-none">
             <span className="text-sm text-muted-foreground">
               <span className={`${lora.className} font-semibold text-foreground`}>At Duke</span>
               {" "}— Class of 2029

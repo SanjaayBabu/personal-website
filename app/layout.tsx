@@ -4,6 +4,7 @@ import { Lora } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PageTransition } from "@/components/page-transition"
+import { SiteHeader } from "@/components/site-header"
 import { siteConfig } from "@/lib/site"
 
 const lora = Lora({
@@ -60,6 +61,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${lora.className} antialiased`}>
         <ThemeProvider>
+          <SiteHeader />
           <PageTransition>{children}</PageTransition>
         </ThemeProvider>
       </body>

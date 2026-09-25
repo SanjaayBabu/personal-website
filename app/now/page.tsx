@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { Metadata } from "next"
 import { Lora } from "next/font/google"
 
@@ -92,14 +91,6 @@ const sections = [
 export default function NowPage() {
   return (
     <main className="max-w-2xl mx-auto px-6 py-16 sm:py-24">
-      {/* Back link */}
-      <Link
-        href="/"
-        className="text-sm text-muted-foreground hover:text-foreground transition-colors mb-12 inline-block"
-      >
-        ← Home
-      </Link>
-
       {/* Header */}
       <div className="mb-14">
         <div className="flex items-center gap-3 mb-3">

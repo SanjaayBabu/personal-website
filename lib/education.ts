@@ -6,6 +6,12 @@ export type EducationItem = {
   location: string
   summary: string
   details: string[]
+  /** Coursework, grouped by term — shown as its own subsection on the Education page. */
+  coursework?: { term: string; courses: string[] }[]
+  /** Clubs / extracurriculars — each can later grow a longer write-up. */
+  extracurriculars?: { name: string; note?: string }[]
+  /** Freeform personal reflection on this chapter, shown above the subsections. */
+  writeup?: string
   link?: { href: string; label: string }
 }
 
@@ -18,11 +24,47 @@ export const EducationItems: EducationItem[] = [
     location: "Durham, NC",
     summary: "Intended Focus: Economics, Philosophy & Public Policy",
     link: { href: "/duke", label: "At Duke →" },
-    details: [
-        "Fall 2025 Coursework: Economic Fundamentals, Theory of Freedom & Moral Obligations (Philosophy), Theory & Practice of Restorative Justice, Religion and Politics in Post-Revolutionary Iran.",
-        "Spring 2026 Coursework: Foundations of Econometrics, Calculus II, Climate Change for Future Leaders, Writing (Wisdom and Comparative Rhetoric), Development and Africa, European Union: Future or Fading?",
-        "Fall 2026 Coursework: Intermediate Microeconomics, Macro Analytics, Moral Psychology, Chinese Law & Policy (Research), Multivariable Calculus, Experiments in Ethical Living",
-        "Extracurriculars: Debate, Program in American Grand Strategy, Duke Fed Challenge (monetary policy & macroeconomics), Duke Impact Investment Group (Consulting), Duke Southeast Asian Community (Founding Member), Duke Singapore Students Association (Vice-President)",
+    details: [],
+    coursework: [
+      {
+        term: "Fall 2025",
+        courses: [
+          "Economic Fundamentals",
+          "Theory of Freedom & Moral Obligations (Philosophy)",
+          "Theory & Practice of Restorative Justice",
+          "Religion and Politics in Post-Revolutionary Iran",
+        ],
+      },
+      {
+        term: "Spring 2026",
+        courses: [
+          "Foundations of Econometrics",
+          "Calculus II",
+          "Climate Change for Future Leaders",
+          "Writing (Wisdom and Comparative Rhetoric)",
+          "Development and Africa",
+          "European Union: Future or Fading?",
+        ],
+      },
+      {
+        term: "Fall 2026",
+        courses: [
+          "Intermediate Microeconomics",
+          "Macro Analytics",
+          "Moral Psychology",
+          "Chinese Law & Policy (Research)",
+          "Multivariable Calculus",
+          "Experiments in Ethical Living",
+        ],
+      },
+    ],
+    extracurriculars: [
+      { name: "Debate" },
+      { name: "Program in American Grand Strategy" },
+      { name: "Duke Fed Challenge", note: "Monetary policy & macroeconomics" },
+      { name: "Duke Impact Investment Group", note: "Consulting" },
+      { name: "Duke Southeast Asian Community", note: "Founding Member" },
+      { name: "Duke Singapore Students Association", note: "Vice-President" },
     ],
   },
 
