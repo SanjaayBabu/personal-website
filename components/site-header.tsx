@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
 import { Lora } from "next/font/google"
-import { Menu, Moon, Sun } from "lucide-react"
+import { Briefcase, FolderGit2, GraduationCap, Menu, Moon, PenLine, Sun } from "lucide-react"
 import {
   Drawer,
   DrawerClose,
@@ -17,10 +17,10 @@ import {
 const lora = Lora({ subsets: ["latin"], weight: ["400", "600"] })
 
 const navLinks = [
-  { href: "/experience", label: "Experience" },
-  { href: "/education", label: "Education" },
-  { href: "/projects", label: "Projects" },
-  { href: "/writing", label: "Writing" },
+  { href: "/experience", label: "Experience", icon: Briefcase },
+  { href: "/education", label: "Education", icon: GraduationCap },
+  { href: "/projects", label: "Projects", icon: FolderGit2 },
+  { href: "/writing", label: "Writing", icon: PenLine },
 ]
 
 export function SiteHeader() {
@@ -38,7 +38,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16 h-14 flex items-center justify-between">
-        <Link href="/" className={`${lora.className} text-sm font-semibold tracking-tight hover:text-muted-foreground transition-colors`}>
+        <Link href="/" className={`${lora.className} text-lg sm:text-xl font-semibold tracking-tight hover:text-muted-foreground transition-colors`}>
           Sanjaay Babu
         </Link>
 
@@ -47,12 +47,13 @@ export function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm transition-colors relative py-1 ${
+              className={`inline-flex items-center gap-1.5 text-sm transition-colors relative py-1 ${
                 isActive(link.href)
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
+              <link.icon className="w-3.5 h-3.5" />
               {link.label}
               {isActive(link.href) && (
                 <span
@@ -95,10 +96,11 @@ export function SiteHeader() {
                   <DrawerClose asChild key={link.href}>
                     <Link
                       href={link.href}
-                      className={`w-full flex items-center justify-between px-4 py-4 rounded-lg text-base font-medium ${
+                      className={`w-full flex items-center gap-3 px-4 py-4 rounded-lg text-base font-medium ${
                         isActive(link.href) ? "bg-foreground text-background" : "hover:bg-muted"
                       }`}
                     >
+                      <link.icon className="w-4 h-4" />
                       {link.label}
                     </Link>
                   </DrawerClose>
