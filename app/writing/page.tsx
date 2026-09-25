@@ -1,26 +1,19 @@
 // app/writing/page.tsx
-import React from "react";
-import { Lora } from "next/font/google";
-import { getAllPostsMeta } from "@/lib/writing";
-import WritingPreview from "@/components/writing/WritingPreview";
-import MailingListSignup from "@/components/writing/MailingListSignup";
+import { Suspense } from "react";
+import { Metadata } from "next";
+import WritingSection from "@/components/writing/WritingSection";
 
-const lora = Lora({ subsets: ["latin"], weight: ["400", "600"] });
+export const metadata: Metadata = {
+  title: "Writing — Sanjaay Babu",
+  description: "Essays, notes, and reflections.",
+};
 
-export default async function WritingIndexPage() {
-  const posts = await getAllPostsMeta();
-
+export default function WritingIndexPage() {
   return (
-    <main className="max-w-3xl mx-auto py-12">
-      <h1 className={`${lora.className} text-3xl font-bold mb-8`}>Writing</h1>
-      <div className="space-y-8">
-        {posts.map((p) => (
-          <WritingPreview key={p.slug} post={p} />
-        ))}
-      </div>
-      <div className="mt-16">
-        <MailingListSignup />
-      </div>
+    <main className="max-w-3xl mx-auto px-6 sm:px-8 py-16 sm:py-24">
+      <Suspense fallback={null}>
+        <WritingSection />
+      </Suspense>
     </main>
   );
 }

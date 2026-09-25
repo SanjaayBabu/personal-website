@@ -51,7 +51,7 @@ export const workItems: WorkItem[] = [
   
   {
     id: "development-economics",
-    period: "02/2026-06/2026",
+    period: "02/2026-present",
     role: "Research Assistant",
     org: "Duke University Development Economics Lab",
     summary:
