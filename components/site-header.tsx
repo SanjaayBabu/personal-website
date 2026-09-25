@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
 import { Lora } from "next/font/google"
-import { Briefcase, FolderGit2, GraduationCap, Menu, Moon, PenLine, Sun } from "lucide-react"
+import { Menu, Moon, Sun } from "lucide-react"
 import {
   Drawer,
   DrawerClose,
@@ -17,10 +17,10 @@ import {
 const lora = Lora({ subsets: ["latin"], weight: ["400", "600"] })
 
 const navLinks = [
-  { href: "/experience", label: "Experience", icon: Briefcase },
-  { href: "/education", label: "Education", icon: GraduationCap },
-  { href: "/projects", label: "Projects", icon: FolderGit2 },
-  { href: "/writing", label: "Writing", icon: PenLine },
+  { href: "/experience", label: "Experience" },
+  { href: "/education", label: "Education" },
+  { href: "/projects", label: "Projects" },
+  { href: "/writing", label: "Writing" },
 ]
 
 export function SiteHeader() {
@@ -47,13 +47,12 @@ export function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className={`inline-flex items-center gap-1.5 text-sm transition-colors relative py-1 ${
+              className={`text-sm transition-colors relative py-1 ${
                 isActive(link.href)
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              <link.icon className="w-3.5 h-3.5" />
               {link.label}
               {isActive(link.href) && (
                 <span
@@ -96,11 +95,10 @@ export function SiteHeader() {
                   <DrawerClose asChild key={link.href}>
                     <Link
                       href={link.href}
-                      className={`w-full flex items-center gap-3 px-4 py-4 rounded-lg text-base font-medium ${
+                      className={`w-full flex items-center justify-between px-4 py-4 rounded-lg text-base font-medium ${
                         isActive(link.href) ? "bg-foreground text-background" : "hover:bg-muted"
                       }`}
                     >
-                      <link.icon className="w-4 h-4" />
                       {link.label}
                     </Link>
                   </DrawerClose>
