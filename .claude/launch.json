@@ -4,9 +4,40 @@
     {
       "name": "dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "flicks",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "/Users/sanjaaybabu/Documents/Code/flicks",
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "3100"
+      ],
+      "port": 3100
+    },
+    {
+      "name": "flicks-prod",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "/Users/sanjaaybabu/Documents/Code/flicks",
+        "run",
+        "start",
+        "--",
+        "-p",
+        "3101"
+      ],
+      "port": 3101
     }
   ]
 }
