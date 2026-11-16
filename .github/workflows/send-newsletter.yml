@@ -13,25 +13,43 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # Need parent commit to diff against
+          fetch-depth: 0  # Full history so we can diff against the pre-push commit
 
       - name: Detect newly added MDX files
         id: detect
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
         run: |
-          # --diff-filter=A: only files ADDED (not modified/deleted)
-          NEW_FILES=$(git diff --diff-filter=A --name-only HEAD~1 HEAD -- 'content/writing/*.mdx')
-          echo "new_files=$NEW_FILES" >> "$GITHUB_OUTPUT"
+          # Diff the whole push (every commit in it), not just the last commit.
+          # Fall back to HEAD~1 if the pre-push commit is unknown (new branch / force push).
+          BASE="$BEFORE_SHA"
+          if [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            BASE="HEAD~1"
+          fi
 
-          if [ -n "$NEW_FILES" ]; then
-            FIRST_FILE=$(echo "$NEW_FILES" | head -n 1)
-            SLUG=$(basename "$FIRST_FILE" .mdx)
-            echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
-            echo "has_new=true" >> "$GITHUB_OUTPUT"
-            echo "Detected new article: $SLUG"
-          else
+          # --diff-filter=A: only files ADDED (not modified/deleted)
+          NEW_FILES=$(git diff --diff-filter=A --name-only "$BASE" HEAD -- 'content/writing/*.mdx')
+
+          if [ -z "$NEW_FILES" ]; then
             echo "has_new=false" >> "$GITHUB_OUTPUT"
             echo "No new articles detected — skipping newsletter send."
+            exit 0
           fi
+
+          echo "New articles in this push:"
+          echo "$NEW_FILES" | sed 's/^/  - /'
+
+          # If several posts landed at once, email only the newest (by frontmatter date)
+          # so subscribers don't get a burst of emails for back-filled posts.
+          NEWEST=$(while IFS= read -r f; do
+            d=$(grep -m1 '^date:' "$f" | sed -E 's/^date:[[:space:]]*//; s/["'\'']//g')
+            echo "$d $f"
+          done <<< "$NEW_FILES" | sort -r | head -n 1 | cut -d' ' -f2-)
+
+          SLUG=$(basename "$NEWEST" .mdx)
+          echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+          echo "has_new=true" >> "$GITHUB_OUTPUT"
+          echo "Sending newsletter for newest article: $SLUG"
 
       - name: Wait for Vercel deployment
         if: steps.detect.outputs.has_new == 'true'
